@@ -1,0 +1,26 @@
+---
+import HomePage from "../layouts/HomePage.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<HomePage title="Home">
+  <main class="main-content">
+    <Contact />
+  </main>
+  <Footer />
+</HomePage>
+
+<style>
+  main.main-content {
+    width: 100%;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+</style>

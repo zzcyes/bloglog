@@ -1,0 +1,131 @@
+---
+import ToggleTheme from "./ToggleTheme.astro";
+import Avatar from "./Avatar.astro";
+
+const navLinks = [
+  { href: "/", text: "Home" },
+  { href: "/notes", text: "Notes" },
+  { href: "https://www.zzcyes.com/blogs", text: "Blogs", target: "_bank" },
+  //   {
+  //     href: "https://www.zzcyes.com/projects/webfolio",
+  //     text: "Projects",
+  //     target: "_bank",
+  //   },
+  //   { href: "/about", text: "About" },
+  {
+    href: "https://github.com/zzcyes",
+    text: "Github",
+    icon: "/assets/icons/github.svg",
+    target: "_bank",
+  },
+];
+---
+
+<div class="nav-container">
+  <div class="logo-container" onclick="window.location.href = '/'">
+    <div class="avatar-container">
+      <Avatar />
+    </div>
+    <div class="logo-text-container">
+      <div class="logo-text">ZZCYES</div>
+      <div class="logo-text-sub">Talk is cheap, show me the code</div>
+    </div>
+  </div>
+  <div class="nav-links-container">
+    {
+      navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="nav-links"
+          title={link.text}
+          target={link.target ? link.target : undefined}
+        >
+          {link.text}
+        </a>
+      ))
+    }
+    <span class="margin-left-auto">
+      <ToggleTheme />
+    </span>
+  </div>
+</div>
+
+<style>
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 40px;
+    padding-top: 2rem;
+    margin: 0 auto;
+
+    @media screen and (max-width: 900px) {
+      flex-direction: column;
+    }
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    align-self: start;
+    cursor: pointer;
+
+    .avatar-container {
+      height: 100px;
+      width: 100px;
+    }
+
+    .logo-text-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      margin-left: 1rem;
+
+      & .logo-text {
+        font-size: 1.5rem;
+        font-weight: bold;
+
+        @media screen and (max-width: 900px) {
+          font-size: 20px;
+        }
+      }
+
+      & .logo-text-sub {
+        font-size: 1.2rem;
+        color: var(--color-text-secondary);
+        margin-top: 0.5rem;
+
+        @media screen and (max-width: 900px) {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .nav-links-container {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+
+    @media screen and (max-width: 900px) {
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      margin-right: 1.5rem;
+
+      @media screen and (max-width: 900px) {
+        font-size: 20px;
+        margin-right: 5px;
+      }
+    }
+  }
+</style>

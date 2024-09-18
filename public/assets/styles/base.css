@@ -1,0 +1,42 @@
+@import "./root.css";
+@import "./reset.css";
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+/* html[data-theme="light"] {
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+html[data-theme="dark"] {
+    background-color: var(--color-background-reverse);
+    color: var(--color-text-reverse);
+}
+
+*/
+@font-face {
+    font-family: CuteAlphabet;
+    src: url("/assets/fonts/CuteAlphabet.woff2") format("woff2");
+}
+
+html,
+body {
+    font-family: CuteAlphabet,
+        "Segoe UI",
+        Tahoma,
+        Geneva,
+        Verdana,
+        sans-serif;
+}

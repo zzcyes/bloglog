@@ -1,0 +1,129 @@
+---
+const links = [
+  {
+    name: "博客",
+    url: "https://www.zzcyes.com/blogs/",
+    icon: "icon-article.png",
+    className: "icon-article",
+  },
+  {
+    name: "GitHub",
+    url: "https://github.com/zzcyes",
+    icon: "icon-github.png",
+    className: "icon-github",
+  },
+  {
+    name: "Projects",
+    url: "https://www.zzcyes.com/projects/webfolio",
+    icon: "icon-projects.png",
+    className: "icon-projects",
+  },
+  {
+    name: "简历",
+    url: "resume.html",
+    icon: "icon-resume.png",
+    className: "icon-resume",
+  },
+  {
+    name: "邮箱",
+    url: "mailto:zhongzichen1997@163.com",
+    icon: "icon-email.png",
+    className: "icon-email",
+  },
+  {
+    name: "Guitar",
+    url: "rain.html",
+    icon: "icon-guitar.png",
+    className: "icon-guitar",
+  },
+  {
+    name: "Rain",
+    url: "rain.html",
+    icon: "icon-rain.png",
+    className: "icon-rain",
+  },
+  {
+    name: "Mambma Never Out",
+    url: "kobe.html",
+    icon: "icon-kobe.png",
+    className: "icon-kobe",
+  },
+  {
+    name: "Luck",
+    url: "Luck.html",
+    icon: "icon-luck.png",
+    className: "icon-luck",
+  },
+];
+---
+
+<section class="contact">
+  <div id="contact-panel">
+    {
+      links.map(({ name, url, className, icon }) => (
+        <a
+          class={`social-share-element ${className}`}
+          href={url}
+          title={name}
+          style={`--icon: url(/assets/images/${icon})`}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  section.contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #contact-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: auto;
+    gap: 10px;
+
+    & > .social-share-element:hover {
+      border-radius: 4px;
+      transition: 0.5s;
+    }
+
+    & > .social-share-element {
+      display: inline-block;
+      width: 45px;
+      height: 45px;
+      border-bottom: none;
+      border-radius: 50%;
+      background-color: var(--color-text-secondary);
+      background-image: var(--icon);
+      background-size: 55%;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: 0.5s;
+
+      /* &.icon-kobe {
+      background-size: 60%;
+    }
+
+    &.icon-resume {
+      background-size: 60%;
+    }
+
+    &.icon-article {
+      background-size: 45%;
+    }
+
+    &.icon-guitar {
+      background-size: 50%;
+    }
+
+    &.icon-rain {
+      background-size: 40%;
+    } */
+    }
+  }
+</style>

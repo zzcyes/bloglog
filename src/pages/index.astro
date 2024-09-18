@@ -1,0 +1,485 @@
+---
+import HomePage from "../layouts/HomePage.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import Avatar from "../components/Avatar.astro";
+import { normalizePosts } from "../common/utils";
+const posts = await Astro.glob("../content/*.md");
+const formatPosts = normalizePosts(posts).slice(0, 5);
+
+const skills = [
+  {
+    name: "HTML",
+    iconUrl: "/assets/icons/html.svg",
+    type: ["fontend"],
+    href: "https://developer.mozilla.org/zh-CN/docs/Web/HTML",
+  },
+  {
+    name: "CSS",
+    iconUrl: "/assets/icons/css.svg",
+    type: ["fontend"],
+    href: "https://developer.mozilla.org/zh-CN/docs/Web/CSS",
+  },
+  {
+    name: "JavaScript",
+    iconUrl: "/assets/icons/javascript.svg",
+    type: ["fontend"],
+    href: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
+  },
+  {
+    name: "Node.js",
+    iconUrl: "/assets/icons/nodejs.svg",
+    type: ["fontend", "backend"],
+    href: "https://nodejs.org/",
+  },
+  {
+    name: "Egg.js",
+    iconUrl: "/assets/icons/egg.svg",
+    type: ["backend"],
+    href: "https://www.eggjs.org/",
+  },
+  {
+    name: "Koa.js",
+    iconUrl: "/assets/icons/koa.png",
+    type: ["backend"],
+    href: "https://koajs.com/",
+  },
+  {
+    name: "Express.js",
+    iconUrl: "/assets/icons/express.png",
+    type: ["backend"],
+    href: "https://expressjs.com/",
+  },
+  {
+    name: "Nest.js",
+    iconUrl: "/assets/icons/nestjs.svg",
+    type: ["backend"],
+    href: "https://nestjs.com/",
+  },
+  {
+    name: "Next.js",
+    iconUrl: "/assets/icons/nextjs.svg",
+    type: ["fontend", "backend"],
+    href: "https://nextjs.org/",
+  },
+  {
+    name: "TypeScript",
+    iconUrl: "/assets/icons/typescript.svg",
+    type: ["fontend", "backend"],
+    href: "https://www.typescriptlang.org/",
+  },
+  {
+    name: "Vue",
+    iconUrl: "/assets/icons/vue.svg",
+    type: ["fontend"],
+    href: "https://vuejs.org/",
+  },
+  {
+    name: "React",
+    iconUrl: "/assets/icons/react.svg",
+    type: ["fontend"],
+    href: "https://reactjs.org/",
+  },
+  {
+    name: "Astro",
+    iconUrl: "/assets/icons/astro.svg",
+    type: ["fontend"],
+    href: "https://astro.build/",
+  },
+  {
+    name: "Webpack",
+    iconUrl: "/assets/icons/webpack.svg",
+    type: ["tools"],
+    href: "https://webpack.js.org/",
+  },
+  {
+    name: "Babel",
+    iconUrl: "/assets/icons/babel.png",
+    type: ["tools"],
+    href: "https://babeljs.io/",
+  },
+  {
+    name: "Vite",
+    iconUrl: "/assets/icons/vite.svg",
+    type: ["tools"],
+    href: "https://vitejs.dev/",
+  },
+  {
+    name: "Esbuild",
+    iconUrl: "/assets/icons/esbuild.svg",
+    type: ["tools"],
+    href: "https://esbuild.github.io/",
+  },
+  {
+    name: "Rollup",
+    iconUrl: "/assets/icons/rollup.png",
+    type: ["tools"],
+    href: "https://rollupjs.org/",
+  },
+  {
+    name: "Sass",
+    iconUrl: "/assets/icons/sass.svg",
+    type: ["fontend"],
+    href: "https://sass-lang.com/",
+  },
+  {
+    name: "Less",
+    iconUrl: "/assets/icons/less.png",
+    type: ["fontend"],
+    href: "https://lesscss.org/",
+  },
+  {
+    name: "Emotion",
+    iconUrl: "/assets/icons/emotion.png",
+    type: ["fontend"],
+    href: "https://emotion.sh/",
+  },
+  {
+    name: "Styled Components",
+    iconUrl: "/assets/icons/styled-components.png",
+    type: ["fontend"],
+    href: "https://styled-components.com/",
+  },
+  {
+    name: "TailwindCSS",
+    iconUrl: "/assets/icons/tailwindcss.svg",
+    type: ["fontend"],
+    href: "https://tailwindcss.com/",
+  },
+  {
+    name: "Git",
+    iconUrl: "/assets/icons/git.svg",
+    type: ["tools"],
+    href: "https://git-scm.com/",
+  },
+  {
+    name: "Github",
+    iconUrl: "/assets/icons/github.svg",
+    type: ["tools"],
+    href: "https://github.com/",
+  },
+  {
+    name: "Docker",
+    iconUrl: "/assets/icons/docker.svg",
+    type: ["devops"],
+    href: "https://www.docker.com/",
+  },
+  {
+    name: "Nginx",
+    iconUrl: "/assets/icons/nginx.svg",
+    type: ["devops"],
+    href: "https://nginx.org/",
+  },
+  {
+    name: "MySQL",
+    iconUrl: "/assets/icons/mysql.svg",
+    type: ["backend"],
+    href: "https://www.mysql.com/",
+  },
+  {
+    name: "MongoDB",
+    iconUrl: "/assets/icons/mongodb.svg",
+    type: ["backend"],
+    href: "https://www.mongodb.com/",
+  },
+  {
+    name: "VS Code",
+    iconUrl: "/assets/icons/vscode.ico",
+    type: ["tools"],
+    href: "https://code.visualstudio.com/",
+  },
+];
+const filterSkilsType = (skills: any, type: string) => {
+  return skills.filter((item: any) => item?.type?.includes(type));
+};
+
+const skillsCollection = [
+  {
+    key: "frontend",
+    name: "Frontend",
+    skills: filterSkilsType(skills, "fontend"),
+  },
+  {
+    key: "backend",
+    name: "Backend",
+    skills: filterSkilsType(skills, "backend"),
+  },
+  {
+    key: "devops",
+    name: "DevOps",
+    skills: filterSkilsType(skills, "devops"),
+  },
+  {
+    key: "tools",
+    name: "Tools",
+    skills: filterSkilsType(skills, "tools"),
+  },
+];
+
+function handleDragStart(event: any) {
+  console.debug("handleDragStart", event);
+  event.dataTransfer.setData("text/plain", event.target.dataset.skill);
+}
+
+function handleDrop(event: any) {
+  console.debug("handleDrop", event);
+  event.preventDefault();
+  const skillData = JSON.parse(event.dataTransfer.getData("text"));
+  const targetContainer = event.target.closest(".skills-container");
+  const sourceItem = document.querySelector(
+    `[data-skill='${JSON.stringify(skillData)}']`
+  );
+
+  if (targetContainer && sourceItem) {
+    targetContainer.appendChild(sourceItem);
+    updateSkillTypes(
+      skillData,
+      targetContainer.closest(".skills-collection-block").dataset.category
+    );
+  }
+}
+
+function updateSkillTypes(skill: any, newCategory: any) {
+  if (!skill.type.includes(newCategory)) {
+    skill.type.push(newCategory);
+  }
+  // 这里可以添加逻辑来更新服务器端的数据，如果需要的话
+}
+---
+
+<HomePage title="Home">
+  <main class="main-content">
+    <!-- <article>
+      <h1>👋 I'm 🧑‍💻 I am a developer and an open-source enthusiast.</h1>
+      <br />
+      <p>
+        🕹️ I am primarily a web front-end developer, with a tech stack mainly
+        focused on Vue. Of course, I also enjoy working with React. I am
+        particularly fascinated by TypeScript, although I am still learning and
+        practicing it. When it comes to code, I prefer explicit and controllable
+        approaches, and dislike implicit and uncontrollable ones. I enjoy
+        experimenting with new things and sharing my findings.
+      </p>
+      <br />
+      <p>
+        📍 Currently residing in Chengdu, Sichuan, and planning to move to other
+        cities in the future, such as Guangzhou or Shenzhen, in order to seek
+        better career prospects. Also, open to remote job opportunities.
+      </p>
+    </article> -->
+    <div class="article-container">
+      <h1>Hey, I'm Zhong Zichen 👋</h1>
+      <p>
+        I'm a software developer who makes open-source projects and writes about
+        code and life.
+      </p>
+      <p>Welcome to my personal page!</p>
+      <p>
+        On this site, you can check out all the technical articles I've written,
+        read some of my personal <a class="link" href="/notes">notes</a> , or learn
+        more about me.
+      </p>
+    </div>
+
+    <div class="block-container">
+      <div class="block-bar">
+        <div class="bar-title">Notes</div>
+        <button class="bar-action"> <a href="/notes"> All Notes</a></button>
+      </div>
+      <ul class="post-list">
+        {
+          formatPosts.map((post) => (
+            <li class="post-item">
+              <a href={`/posts/${post.id}`} class="post-title">
+                {post.title}
+              </a>
+              {post.date && <date class="date">{post.date}</date>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="block-container">
+      <div class="block-bar">
+        <div class="bar-title">Skills</div>
+        <!-- <button class="bar-action">All Skills</button> -->
+      </div>
+
+      {
+        skillsCollection.map((item: any) => (
+          <div class="skills-collection-block" data-category={item.key}>
+            <div class="skills-collection-title">{item.name}</div>
+            <ul class="skills-container">
+              {item.skills?.map((skill: any) => (
+                <a href={skill.href} target="_blank" rel="noopener noreferrer">
+                  <li class="skill-item" draggable="true">
+                    <img
+                      src={skill.iconUrl}
+                      alt={skill.name}
+                      class="skill-icon"
+                    />
+                    <span class="skill-name">{skill.name}</span>
+                  </li>
+                </a>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="block-container">
+      <div class="block-bar">
+        <div class="bar-title">Contact</div>
+        <!-- <button class="bar-action">All Button</button> -->
+      </div>
+      <Contact />
+    </div>
+    <Footer />
+  </main>
+</HomePage>
+
+<style>
+  main.main-content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 900px;
+    width: calc(100% - 80px);
+    height: 100%;
+  }
+
+  .article-container {
+    margin: 5rem auto;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 2rem;
+      margin-bottom: 1rem;
+      color: var(--color-text-secondary);
+    }
+
+    .link {
+      color: var(--color-accent);
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .article-container {
+      h1 {
+        font-size: 20px;
+      }
+      p {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .block-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 5rem;
+
+    .block-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      .bar-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .bar-action {
+        border: 1px solid var(--color-border);
+        color: var(--color-text-secondary);
+        padding: 8px;
+        border-radius: 8px;
+      }
+    }
+
+    .post-list {
+      list-style-type: none;
+      padding: 0;
+
+      .post-item {
+        display: flex;
+        justify-content: space-between;
+        line-height: 2rem;
+        border-bottom: 1px solid var(--color-border);
+
+        /* flex-direction: column; */
+        /* margin-bottom: 3rem; */
+      }
+
+      .post-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: var(--color-accent);
+      }
+
+      .date {
+        font-size: 14px;
+        font-style: italic;
+        color: var(--color-text-secondary);
+      }
+    }
+
+    .skills-collection-block {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2rem;
+
+      .skills-collection-title {
+        text-align: center;
+        font-size: 1.2rem;
+        word-break: keep-all;
+      }
+    }
+
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 1rem;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .skill-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 8px;
+      background-color: var(--color-background-secondary);
+      transition:
+        transform 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    .skill-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .skill-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-name {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+    }
+  }
+</style>

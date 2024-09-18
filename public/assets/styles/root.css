@@ -1,0 +1,52 @@
+:root {
+    --color-background: white;
+    --color-text: #333333;
+    --color-text-secondary: #666666;
+    --color-border: rgba(0, 0, 0, 0.1);
+    --color-card-background: #ffffff;
+    --color-card-shadow: rgba(0, 0, 0, 0.1);
+    --color-hover: rgba(0, 0, 0, 0.05);
+    --color-scrollbar-track: #ffffff;
+    --color-scrollbar-thumb: #c1c1c1;
+    --color-scrollbar-thumb-hover: #a8a8a8;
+    --color-accent: #4e5dff;
+
+    /* --color-background-reverse: #221e25;
+--color-text-reverse: #e0e0e0;
+--color-text-secondary-reverse: #b0b0b0;
+--color-border-reverse: rgba(255, 255, 255, 0.1);
+--color-card-background-reverse: #1e1e1e;
+--color-card-shadow-reverse: rgba(0, 0, 0, 0.1);
+--color-hover-reverse: rgba(255, 255, 255, 0.1);
+--color-scrollbar-track-reverse: #1e1e1e;
+--color-scrollbar-thumb-reverse: #555;
+--color-scrollbar-thumb-hover-reverse: #777; */
+}
+
+/* html[data-theme="light"] {
+    --color-background: white;
+    --color-text: #333333;
+    --color-text-secondary: #666666;
+    --color-border: rgba(0, 0, 0, 0.1);
+    --color-card-background: #ffffff;
+    --color-card-shadow: rgba(0, 0, 0, 0.1);
+    --color-hover: rgba(0, 0, 0, 0.05);
+    --color-scrollbar-track: #ffffff;
+    --color-scrollbar-thumb: #c1c1c1;
+    --color-scrollbar-thumb-hover: #a8a8a8;
+}
+
+*/
+html[data-theme="dark"] {
+    --color-background: #221e25;
+    --color-text: #e0e0e0;
+    --color-text-secondary: #b0b0b0;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-card-background: #1e1e1e;
+    --color-card-shadow: rgba(0, 0, 0, 0.1);
+    --color-hover: rgba(255, 255, 255, 0.1);
+    --color-scrollbar-track: #1e1e1e;
+    --color-scrollbar-thumb: #555;
+    --color-scrollbar-thumb-hover: #777;
+    --color-accent: #fca369;
+}

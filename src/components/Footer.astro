@@ -1,0 +1,49 @@
+---
+const getYear = new Date().getFullYear();
+---
+
+<ul class="footer-nav">
+  <li>Designed & Powerd by zhongzichen</li>
+  <li>Copyright© 2019-{getYear} zzcyes</li>
+  <li class="copyright-block">
+    <a
+      class="center-block"
+      target="_blank"
+      href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030402006382"
+    >
+      <img src="/assets/images/icon-gov.png" />
+      &nbsp; 粤公网安备44030402006382号
+    </a>
+    <span class="center-block"> &nbsp;|&nbsp; </span>
+    <a class="center-block" target="_blank" href="https://beian.miit.gov.cn/"
+      >粤ICP备19065257号-1</a
+    >
+  </li>
+</ul>
+
+<style>
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    /* font-family: "Arizonia", cursive; */
+    margin-bottom: 10px;
+
+    li {
+      word-break: break-all;
+      margin-bottom: 6px;
+    }
+
+    .copyright-block {
+      display: flex;
+      align-items: center;
+
+      .center-block {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+</style>
