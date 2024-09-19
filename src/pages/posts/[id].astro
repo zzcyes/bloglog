@@ -1,55 +1,45 @@
 ---
 import HomePage from "../../layouts/HomePage.astro";
+import Prose from "../../components/Prose.astro";
 import { getReadingTime } from "../../common/utils";
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await Astro.glob("../../content/*.md");
-  return posts.map((post) => ({
+  const posts = await getCollection('notes'); 
+  return posts.map((post: any) => ({
     params: {
-      id: post.frontmatter.id || post.file.split("/").pop().split(".")[0],
+      id: post.slug,
     },
     props: { post },
   }));
 }
 
-const { id } = Astro.params;
 const { post } = Astro.props;
 
 if (!post) {
   return Astro.redirect("/404");
 }
 
-const { Content, frontmatter } = post;
-const readingTime = getReadingTime(post.rawContent());
+const { render, data } = post;
+const { Content } = await render();
+const readingTime = getReadingTime(post.body);
 ---
 
-<HomePage title={frontmatter.title || "文章"}>
+<HomePage title={data.title}>
   <main class="main-content">
-    <sidebar class="sidebar">
-      <div class="toc">
-        <!-- <h2>目录</h2> -->
-        <nav id="toc"></nav>
-      </div>
-    </sidebar>
     <article>
-      <h1>{frontmatter.title}</h1>
+      <h1>{data.title}</h1>
       <div class="meta">
         {
-          frontmatter.date && (
-            <span class="date">发布日期：{frontmatter.date}</span>
+          data.date && (
+            <span class="date">发布日期：{data.date}</span>
           )
         }
         <span class="reading-time">阅读时间：约 {readingTime} 分钟</span>
       </div>
-
-      <div
-        class="prose dark:prose-invert
-  prose-h1:font-bold prose-h1:text-xl
-  prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl
-  prose-headings:underline"
-      >
+      <Prose>
         <Content />
-      </div>
+      </Prose>
     </article>
   </main>
 </HomePage>

@@ -10,6 +10,8 @@
     --color-scrollbar-thumb: #c1c1c1;
     --color-scrollbar-thumb-hover: #a8a8a8;
     --color-accent: #4e5dff;
+    --theme-code-tabs: #22272f;
+    --theme-code-bg: #282c34;
 
     /* --color-background-reverse: #221e25;
 --color-text-reverse: #e0e0e0;
@@ -49,4 +51,6 @@ html[data-theme="dark"] {
     --color-scrollbar-thumb: #555;
     --color-scrollbar-thumb-hover: #777;
     --color-accent: #fca369;
+    --theme-code-tabs: #22272f;
+    --theme-code-bg: #282c34;
 }

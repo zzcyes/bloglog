@@ -1,6 +1,10 @@
 ---
 import Layout from "./Layout.astro";
 import Nav from "../components/Nav.astro";
+import { getAssetPath } from "../common/utils";
+const bgLight = getAssetPath("/assets/images/bg-light.svg");
+const bgDark = getAssetPath("/assets/images/bg-dark.svg");
+
 
 interface Props {
   title: string;
@@ -10,7 +14,7 @@ const { title } = Astro.props;
 ---
 
 <Layout title={title}>
-  <div class="page-container">
+  <div class="page-container" style={`--bg-light: url(${bgLight});--bg-dark: url(${bgDark});`}>
     <Nav />
     <div class="center-container">
       <slot />
@@ -19,6 +23,7 @@ const { title } = Astro.props;
 </Layout>
 
 <style>
+
   .page-container {
     display: flex;
     flex-direction: column;
@@ -28,11 +33,11 @@ const { title } = Astro.props;
   }
 
   html[data-theme="light"] .page-container {
-    background-image: url("/assets/images/bg-light.svg");
+    background-image: var(--bg-light);
   }
 
   html[data-theme="dark"] .page-container {
-    background-image: url("/assets/images/bg-dark.svg");
+    background-image: var(--bg-dark);
   }
 
   .center-container {

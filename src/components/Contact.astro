@@ -1,4 +1,9 @@
 ---
+import { getBaseUrl } from "../common/utils";
+
+const baseUrl = getBaseUrl()
+
+
 const links = [
   {
     name: "博客",
@@ -20,7 +25,7 @@ const links = [
   },
   {
     name: "简历",
-    url: "resume.html",
+    url: "https://www.zzcyes.com/resume.html",
     icon: "icon-resume.png",
     className: "icon-resume",
   },
@@ -32,25 +37,25 @@ const links = [
   },
   {
     name: "Guitar",
-    url: "rain.html",
+    url: "https://music.163.com/#/user/fans?id=482295750",
     icon: "icon-guitar.png",
     className: "icon-guitar",
   },
   {
     name: "Rain",
-    url: "rain.html",
+    url: "https://www.zzcyes.com/rain.html",
     icon: "icon-rain.png",
     className: "icon-rain",
   },
   {
     name: "Mambma Never Out",
-    url: "kobe.html",
+    url: "https://www.zzcyes.com/kobe.html",
     icon: "icon-kobe.png",
     className: "icon-kobe",
   },
   {
     name: "Luck",
-    url: "Luck.html",
+    url: "https://www.zzcyes.com/luck.html",
     icon: "icon-luck.png",
     className: "icon-luck",
   },
@@ -65,7 +70,8 @@ const links = [
           class={`social-share-element ${className}`}
           href={url}
           title={name}
-          style={`--icon: url(/assets/images/${icon})`}
+          target="_blank"
+          style={`--icon: url(${baseUrl}/assets/images/${icon})`}
         />
       ))
     }

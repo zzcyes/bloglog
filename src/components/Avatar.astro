@@ -1,14 +1,16 @@
 ---
-
+import { getAssetPath} from "../common/utils";
+const lightVideoSrc = getAssetPath("/assets/video/light-avatar.mp4");
+const nightVideoSrc = getAssetPath("/assets/video/night-avatar.mp4");
 ---
 
 <div class="avatar-container">
   <video class="avatar-video-light hidden" autoplay loop muted playsinline>
-    <source src="/assets/video/light-avatar.mp4" type="video/mp4" />
+    <source src={lightVideoSrc} type="video/mp4" />
     您的浏览器不支持视频标签。
   </video>
   <video class="avatar-video-night hidden" autoplay loop muted playsinline>
-    <source src="/assets/video/night-avatar.mp4" type="video/mp4" />
+    <source src={nightVideoSrc} type="video/mp4" />
     您的浏览器不支持视频标签。
   </video>
 </div>
@@ -27,8 +29,7 @@
       border-radius: 50%;
     }
 
-    /* & .avatar-video-night {
-    } */
+
     & .avatar-video-light {
       transform: scale(0.8);
     }

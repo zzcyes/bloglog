@@ -1,4 +1,7 @@
 ---
+import { getAssetPath } from "../common/utils";
+
+const iconGovSrc = getAssetPath("/assets/images/icon-gov.png");
 const getYear = new Date().getFullYear();
 ---
 
@@ -11,7 +14,7 @@ const getYear = new Date().getFullYear();
       target="_blank"
       href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030402006382"
     >
-      <img src="/assets/images/icon-gov.png" />
+      <img src={iconGovSrc} />
       &nbsp; 粤公网安备44030402006382号
     </a>
     <span class="center-block"> &nbsp;|&nbsp; </span>
@@ -28,7 +31,6 @@ const getYear = new Date().getFullYear();
     justify-content: center;
     align-items: center;
     font-size: 12px;
-    /* font-family: "Arizonia", cursive; */
     margin-bottom: 10px;
 
     li {
@@ -39,6 +41,10 @@ const getYear = new Date().getFullYear();
     .copyright-block {
       display: flex;
       align-items: center;
+
+      @media screen and (max-width: 900px){
+        flex-wrap: wrap;
+      }
 
       .center-block {
         display: flex;

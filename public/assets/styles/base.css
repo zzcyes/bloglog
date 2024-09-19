@@ -1,6 +1,8 @@
 @import "./root.css";
 @import "./reset.css";
 
+
+
 *,
 *::before,
 *::after {
@@ -26,17 +28,36 @@ html[data-theme="dark"] {
 }
 
 */
-@font-face {
+/* @font-face {
     font-family: CuteAlphabet;
     src: url("/assets/fonts/CuteAlphabet.woff2") format("woff2");
+} */
+
+
+@font-face {
+    font-family: CuteAlphabet;
+    src: url(/homepage/assets/font-split/CuteAlphabet.woff2);
 }
+
+@font-face {
+    font-family: PuHuiTi;
+    src: url(/homepage/assets/font-split/Alibaba-PuHuiTi-Regular.ttf);
+}
+
+@font-face {
+    font-family: Handdrawn;
+    src: url(/homepage/assets/font-split/Handdrawn.ttf);
+}
+
 
 html,
 body {
-    font-family: CuteAlphabet,
+    /* font-family: CuteAlphabet, PuHuiTi,
         "Segoe UI",
         Tahoma,
         Geneva,
         Verdana,
-        sans-serif;
+        sans-serif; */
+    font-family: CuteAlphabet, PuHuiTi, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
 }

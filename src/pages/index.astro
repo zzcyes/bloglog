@@ -2,12 +2,16 @@
 import HomePage from "../layouts/HomePage.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
-import Avatar from "../components/Avatar.astro";
-import { normalizePosts } from "../common/utils";
-const posts = await Astro.glob("../content/*.md");
+import { normalizePosts, normalizeAssets, getBaseUrl} from "../common/utils";
+import { getCollection } from 'astro:content';
+const posts = await getCollection('notes'); 
+
+const baseUrl = getBaseUrl();
+
+// const posts = await Astro.glob("../content/*.md");
 const formatPosts = normalizePosts(posts).slice(0, 5);
 
-const skills = [
+const skills = normalizeAssets([
   {
     name: "HTML",
     iconUrl: "/assets/icons/html.svg",
@@ -58,7 +62,7 @@ const skills = [
   },
   {
     name: "Next.js",
-    iconUrl: "/assets/icons/nextjs.svg",
+    iconUrl: "/assets/icons/nextjs.ico",
     type: ["fontend", "backend"],
     href: "https://nextjs.org/",
   },
@@ -188,7 +192,8 @@ const skills = [
     type: ["tools"],
     href: "https://code.visualstudio.com/",
   },
-];
+],"iconUrl");
+
 const filterSkilsType = (skills: any, type: string) => {
   return skills.filter((item: any) => item?.type?.includes(type));
 };
@@ -215,36 +220,6 @@ const skillsCollection = [
     skills: filterSkilsType(skills, "tools"),
   },
 ];
-
-function handleDragStart(event: any) {
-  console.debug("handleDragStart", event);
-  event.dataTransfer.setData("text/plain", event.target.dataset.skill);
-}
-
-function handleDrop(event: any) {
-  console.debug("handleDrop", event);
-  event.preventDefault();
-  const skillData = JSON.parse(event.dataTransfer.getData("text"));
-  const targetContainer = event.target.closest(".skills-container");
-  const sourceItem = document.querySelector(
-    `[data-skill='${JSON.stringify(skillData)}']`
-  );
-
-  if (targetContainer && sourceItem) {
-    targetContainer.appendChild(sourceItem);
-    updateSkillTypes(
-      skillData,
-      targetContainer.closest(".skills-collection-block").dataset.category
-    );
-  }
-}
-
-function updateSkillTypes(skill: any, newCategory: any) {
-  if (!skill.type.includes(newCategory)) {
-    skill.type.push(newCategory);
-  }
-  // 这里可以添加逻辑来更新服务器端的数据，如果需要的话
-}
 ---
 
 <HomePage title="Home">
@@ -284,16 +259,16 @@ function updateSkillTypes(skill: any, newCategory: any) {
     <div class="block-container">
       <div class="block-bar">
         <div class="bar-title">Notes</div>
-        <button class="bar-action"> <a href="/notes"> All Notes</a></button>
+        <button class="bar-action"> <a href=`${baseUrl}/notes`> All Notes</a></button>
       </div>
       <ul class="post-list">
         {
           formatPosts.map((post) => (
             <li class="post-item">
-              <a href={`/posts/${post.id}`} class="post-title">
-                {post.title}
+              <a href={`${baseUrl}/posts/${post.slug}`} class="post-title">
+                {post.data.title}
               </a>
-              {post.date && <date class="date">{post.date}</date>}
+              {post.data.date && <date class="date">{post.data.date}</date>}
             </li>
           ))
         }

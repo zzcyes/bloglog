@@ -1,10 +1,12 @@
 ---
 import ToggleTheme from "./ToggleTheme.astro";
 import Avatar from "./Avatar.astro";
+import { getAssetPath ,getBaseUrl } from "../common/utils";
+const baseUrl = getBaseUrl();
 
 const navLinks = [
-  { href: "/", text: "Home" },
-  { href: "/notes", text: "Notes" },
+  { href: baseUrl, text: "Home" },
+  { href: getAssetPath("/notes"), text: "Notes" },
   { href: "https://www.zzcyes.com/blogs", text: "Blogs", target: "_bank" },
   //   {
   //     href: "https://www.zzcyes.com/projects/webfolio",
@@ -22,7 +24,7 @@ const navLinks = [
 ---
 
 <div class="nav-container">
-  <div class="logo-container" onclick="window.location.href = '/'">
+  <div class="logo-container" onclick=`window.location.href = '${baseUrl}'`>
     <div class="avatar-container">
       <Avatar />
     </div>

@@ -1,7 +1,14 @@
 ---
 import HomePage from "../layouts/HomePage.astro";
-import { normalizePosts } from "../common/utils";
-const posts = await Astro.glob("../content/*.md");
+import { normalizePosts, getBaseUrl } from "../common/utils";
+import { getCollection } from 'astro:content';
+const posts = await getCollection('notes'); 
+
+console.debug(posts);
+
+const baseUrl = getBaseUrl();
+
+// const posts = await Astro.glob("../content/*.md");
 const formatPosts = normalizePosts(posts);
 ---
 
@@ -13,10 +20,10 @@ const formatPosts = normalizePosts(posts);
         {
           formatPosts.map((post) => (
             <li class="post-item">
-              <a href={`/posts/${post.id}`} class="post-title">
-                {post.title}
+              <a href={`${baseUrl}/posts/${post.slug}`} class="post-title">
+                {post.data.title}
               </a>
-              {post.date && <date class="date">{post.date}</date>}
+              {post.data.date && <date class="date">{post.data.date}</date>}
             </li>
           ))
         }
