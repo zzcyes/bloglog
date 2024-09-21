@@ -15,7 +15,7 @@ const nightImage = getAssetPath("/assets/video/night-avatar.png");
     <source src={nightVideoSrc} type="video/mp4" />
     您的浏览器不支持视频标签。
   </video>
-  <img
+  <!-- <img
     class="avatar-image avatar-image-light hidden"
     src={lightImage}
     alt="Light Avatar"
@@ -24,7 +24,7 @@ const nightImage = getAssetPath("/assets/video/night-avatar.png");
     class="avatar-image avatar-image-night hidden"
     src={nightImage}
     alt="Night Avatar"
-  />
+  /> -->
 </div>
 
 <style>
@@ -108,7 +108,7 @@ const nightImage = getAssetPath("/assets/video/night-avatar.png");
 
   function initAvatar() {
     const theme = document.documentElement.getAttribute("data-theme");
-    changeImage(theme);
+    // changeImage(theme);
     changeAvatar(theme);
 
     const observer = new MutationObserver((mutations) => {
@@ -118,7 +118,7 @@ const nightImage = getAssetPath("/assets/video/night-avatar.png");
           mutation.attributeName === "data-theme"
         ) {
           const newTheme = document.documentElement.getAttribute("data-theme");
-          changeImage(newTheme);
+          // changeImage(newTheme);
           changeAvatar(newTheme);
         }
       });
@@ -128,17 +128,17 @@ const nightImage = getAssetPath("/assets/video/night-avatar.png");
       attributes: true,
       attributeFilter: ["data-theme"],
     });
-    document.querySelectorAll(".avatar-container").forEach((block) => {
-      // 监听视频加载成功事件
-      block.querySelectorAll("video").forEach((video) => {
-        console.debug("监听视频加载成功事件");
-        video.addEventListener("canplaythrough", () => {
-          block.querySelectorAll(".avatar-image").forEach((img) => {
-            img.classList.add("hidden");
-          });
-        });
-      });
-    });
+    // document.querySelectorAll(".avatar-container").forEach((block) => {
+    //   // 监听视频加载成功事件
+    //   block.querySelectorAll("video").forEach((video) => {
+    //     console.debug("监听视频加载成功事件");
+    //     video.addEventListener("canplaythrough", () => {
+    //       block.querySelectorAll(".avatar-image").forEach((img) => {
+    //         img.classList.add("hidden");
+    //       });
+    //     });
+    //   });
+    // });
   }
 
   // 确保在 DOM 加载完成后初始化

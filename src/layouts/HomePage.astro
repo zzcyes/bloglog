@@ -17,13 +17,8 @@ const { title } = Astro.props;
     class="page-container"
     style={`--bg-light: url(${bgLight});--bg-dark: url(${bgDark});`}
   >
-    <div class="nav-pc hidden">
-      <Nav />
-    </div>
     <div class="center-container">
-      <div class="nav-mobile hidden">
-        <Nav />
-      </div>
+      <Nav />
       <slot />
     </div>
   </div>
