@@ -1,8 +1,8 @@
 ---
 import HomePage from "../layouts/HomePage.astro";
 import { normalizePosts, getBaseUrl } from "../common/utils";
-import { getCollection } from 'astro:content';
-const posts = await getCollection('notes'); 
+import { getCollection } from "astro:content";
+const posts = await getCollection("notes");
 
 console.debug(posts);
 

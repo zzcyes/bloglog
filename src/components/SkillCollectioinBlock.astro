@@ -1,0 +1,152 @@
+---
+const { item } = Astro.props;
+---
+
+<div class="skills-collection-block" data-category={item.key}>
+  <div class="skills-collection-title">{item.name}</div>
+  <ul class="skills-container">
+    {
+      item.skills?.map((skill: any) => (
+        <a href={skill.href} target="_blank" rel="noopener noreferrer">
+          <li class="skill-item" draggable="true">
+            <img
+              data-name={skill.name}
+              data-src={skill.iconUrl}
+              alt={skill.name}
+              loading="lazy"
+              class="skill-icon hidden"
+            />
+            <span class="skill-name">{skill.name}</span>
+            <div class="fallbcack-icon" data-name={skill.name} />
+          </li>
+        </a>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  window.addEventListener("load", function () {
+    const blocks = document.querySelectorAll("div.skills-collection-block");
+    blocks.forEach((block) => {
+      const lazyImages = block.querySelectorAll("img[data-src]");
+      loadLazyImages(lazyImages, block);
+    });
+    function loadLazyImages(lazyImages, block) {
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const fallbackIcons = block.querySelectorAll(".fallbcack-icon");
+            if (fallbackIcons.length > 0) {
+              fallbackIcons.forEach((fallbackIcon) => {
+                fallbackIcon.classList.add("hidden");
+              });
+            }
+            const img = entry.target as HTMLImageElement;
+            img.src = img.getAttribute("data-src");
+            img.removeAttribute("data-src");
+            img.classList.remove("error");
+            img.classList.remove("hidden");
+            observer.unobserve(img);
+          }
+        });
+      });
+      if (lazyImages) {
+        lazyImages.forEach((img) => {
+          observer.observe(img);
+        });
+      }
+    }
+  });
+</script>
+
+<style>
+  .skills-collection-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+
+    .skills-collection-title {
+      text-align: center;
+      font-size: 1.2rem;
+      word-break: keep-all;
+    }
+  }
+
+  .skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1rem;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .skill-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    /* background-color: var(--color-text-secondary); */
+    transition:
+      transform 0.2s ease-in-out,
+      box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+  }
+
+  .skill-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .fallbcack-icon {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-text);
+    border-radius: 50%;
+    z-index: auto;
+    transform: translateX(-50%);
+  }
+
+  img.error {
+    display: none;
+  }
+
+  img {
+    position: relative;
+    display: inline-block;
+  }
+
+  img::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-text);
+    border-radius: 50%;
+    /* background-color: var(--color-text-secondary); */
+  }
+
+  .skill-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.5rem;
+    /* background-color: var(--color-text-secondary); */
+  }
+
+  .hidden {
+    opacity: 0;
+  }
+
+  .skill-name {
+    font-size: 0.9rem;
+    /* color: var(--color-text-secondary); */
+  }
+</style>

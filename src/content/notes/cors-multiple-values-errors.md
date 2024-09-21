@@ -27,7 +27,6 @@ Access to fetch at 'http://47.115.13.227:3004/cors/test' from origin 'http://127
 
 ![cors-multiple-values-04.png](https://www.zzcyes.com/images/cors-multiple-values-04.png)
 
-
 ## 解决方法
 
 错误提示只有一个 `Access-Control-Allow-Origin` 的值是被允许的，那么我们去除Nginx或者服务端的 `Access-Control-Allow-Origin` 配置即可。
@@ -39,43 +38,45 @@ Access to fetch at 'http://47.115.13.227:3004/cors/test' from origin 'http://127
 - http://127.0.0.1:5500/cors.html
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>cors</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1 class="title"></h1>
     <script>
-        fetch('http://47.115.13.227:3004/cors/test', {
-            method: 'POST',
-        }).then(res => {
-            return res.text();
-        }).then(res => {
-            console.debug(res);
-            if (res) {
-                const h = document.querySelector('.title');
-                h && (h.innerText = res);
-            }
+      fetch("http://47.115.13.227:3004/cors/test", {
+        method: "POST",
+      })
+        .then((res) => {
+          return res.text();
         })
+        .then((res) => {
+          console.debug(res);
+          if (res) {
+            const h = document.querySelector(".title");
+            h && (h.innerText = res);
+          }
+        });
     </script>
-</body>
+  </body>
 </html>
 ```
 
-- Nginx 
+- Nginx
 
 ```
 server {
   listen       3004;
-  server_name www.zzcyes.com; 
+  server_name www.zzcyes.com;
   add_header Access-Control-Allow-Origin *;
 
   root  /var/www/;
   index index.html index.htm;
 
   location /{
-      proxy_pass http://47.115.13.227:8004;	
+      proxy_pass http://47.115.13.227:8004;
   }
 }
 ```
@@ -83,34 +84,37 @@ server {
 - Node.js服务
 
 ```javascript
-const http = require('http');
-const corsServer = http.createServer(function(req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Content-type,Content-Length,Authorization,Accept,X-Requested-Width");
-    res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.writeHead(200, { 'Content-type': 'text/plain;charset=UTF8' });
-    res.end('8004: succesed get test word!');
+const http = require("http");
+const corsServer = http.createServer(function (req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-type,Content-Length,Authorization,Accept,X-Requested-Width",
+  );
+  res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.writeHead(200, { "Content-type": "text/plain;charset=UTF8" });
+  res.end("8004: succesed get test word!");
 });
-corsServer.listen('8004', function() {
-    console.log((new Date()) + ' Server is listening on port:', 8004);
-})
+corsServer.listen("8004", function () {
+  console.log(new Date() + " Server is listening on port:", 8004);
+});
 ```
 
 ### 去除Nginx配置的"Access-Control-Allow-Origin"
 
-- Nginx 
+- Nginx
 
 ```
 server {
   listen       3004;
-  server_name www.zzcyes.com; 
+  server_name www.zzcyes.com;
   #add_header Access-Control-Allow-Origin http://47.115.13.227:3004;
 
   root  /var/www/;
   index index.html index.htm;
 
   location /{
-      proxy_pass http://47.115.13.227:8004;	
+      proxy_pass http://47.115.13.227:8004;
   }
 }
 ```
@@ -124,17 +128,20 @@ server {
 - Node.js服务
 
 ```javascript
-const http = require('http');
-const corsServer = http.createServer(function(req, res) {
-    //  res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Content-type,Content-Length,Authorization,Accept,X-Requested-Width");
-    res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.writeHead(200, { 'Content-type': 'text/plain;charset=UTF8' });
-    res.end('8004: succesed get test word!');
+const http = require("http");
+const corsServer = http.createServer(function (req, res) {
+  //  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-type,Content-Length,Authorization,Accept,X-Requested-Width",
+  );
+  res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.writeHead(200, { "Content-type": "text/plain;charset=UTF8" });
+  res.end("8004: succesed get test word!");
 });
-corsServer.listen('8004', function() {
-    console.log((new Date()) + ' Server is listening on port:', 8004);
-})
+corsServer.listen("8004", function () {
+  console.log(new Date() + " Server is listening on port:", 8004);
+});
 ```
 
 去除 Node.js 服务中配置的 `Access-Control-Allow-Origin` 标头后，成功接收到了服务端的响应结果，并且响应头只保留了一个来自 Nginx 配置的 `Access-Control-Allow-Origin`标头。
@@ -147,10 +154,8 @@ corsServer.listen('8004', function() {
 
 如果再碰到类似的 CORS errors 问题，先从控制台的提示查看错误信息，再根据MDN的文档 [CORS errors](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS/Errors) 去查找错误原因再确定解决方案！
 
-
 ## 链接
 
 - [CORS errors - HTTP | MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS/Errors)
 
 - [Reason: Multiple CORS header 'Access-Control-Allow-Origin' not allowed](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSMultipleAllowOriginNotAllowed)
-    

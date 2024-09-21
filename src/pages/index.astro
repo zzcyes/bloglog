@@ -2,197 +2,445 @@
 import HomePage from "../layouts/HomePage.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
-import { normalizePosts, normalizeAssets, getBaseUrl} from "../common/utils";
-import { getCollection } from 'astro:content';
-const posts = await getCollection('notes'); 
+import SkillCollectioinBlock from "../components/SkillCollectioinBlock.astro";
+import { normalizePosts, normalizeAssets, getBaseUrl } from "../common/utils";
+import { getCollection } from "astro:content";
+// import { Image } from 'astro:assets';
+// import HTMLIcon from "../common/assets/icons/html.svg";
+// import CSSIcon from "../common/assets/icons/css.svg";
+// import JavaScriptIcon from "../common/assets/icons/javascript.svg";
+// import NodeIcon from "../common/assets/icons/nodejs.svg";
+// import EggIcon from "../common/assets/icons/egg.svg";
+// import KoaIcon from "../common/assets/icons/koa.png";
+// import ExpressIcon from "../common/assets/icons/express.png";
+// import NestIcon from "../common/assets/icons/nestjs.svg";
+// import NextIcon from "../common/assets/icons/nextjs.png";
+// import TypeScriptIcon from "../common/assets/icons/typescript.svg";
+// import VueIcon from "../common/assets/icons/vue.svg";
+// import ReactIcon from "../common/assets/icons/react.svg";
+// import AstroIcon from "../common/assets/icons/astro.svg";
+// import WebpackIcon from "../common/assets/icons/webpack.svg";
+// import BabelIcon from "../common/assets/icons/babel.png";
+// import ViteIcon from "../common/assets/icons/vite.svg";
+// import EsbuildIcon from "../common/assets/icons/esbuild.svg";
+// import RollupIcon from "../common/assets/icons/rollup.png";
+// import SassIcon from "../common/assets/icons/sass.svg";
+// import LessIcon from "../common/assets/icons/less.png";
+// import EmotionIcon from "../common/assets/icons/emotion.png";
+// import StyledComponentsIcon from "../common/assets/icons/styled-components.png";
+// import TailwindCSSIcon from "../common/assets/icons/tailwindcss.svg";
+// import GitIcon from "../common/assets/icons/git.svg";
+// import GithubIcon from "../common/assets/icons/github.svg";
+// import DockerIcon from "../common/assets/icons/docker.svg";
+// import NginxIcon from "../common/assets/icons/nginx.svg";
+// import MySQLIcon from "../common/assets/icons/mysql.svg";
+// import MongoDBIcon from "../common/assets/icons/mongodb.svg";
+// import VSCodeIcon from "../common/assets/icons/vscode.jpeg";
+
+const posts = await getCollection("notes");
 
 const baseUrl = getBaseUrl();
 
 // const posts = await Astro.glob("../content/*.md");
 const formatPosts = normalizePosts(posts).slice(0, 5);
+// const skills = normalizeAssets([
+//   {
+//     name: "HTML",
+//     iconUrl: "/assets/icons/html.svg",
+//     icon: HTMLIcon,
+//     type: ["fontend"],
+//     href: "https://developer.mozilla.org/zh-CN/docs/Web/HTML",
+//   },
+//   {
+//     name: "CSS",
+//     iconUrl: "/assets/icons/css.svg",
+//     icon: CSSIcon,
+//     type: ["fontend"],
+//     href: "https://developer.mozilla.org/zh-CN/docs/Web/CSS",
+//   },
+//   {
+//     name: "JavaScript",
+//     iconUrl: "/assets/icons/javascript.svg",
+//     icon: JavaScriptIcon,
+//     type: ["fontend"],
+//     href: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
+//   },
+//   {
+//     name: "Node.js",
+//     iconUrl: "/assets/icons/nodejs.svg",
+//     icon: NodeIcon,
+//     type: ["fontend", "backend"],
+//     href: "https://nodejs.org/",
+//   },
+//   {
+//     name: "Egg.js",
+//     iconUrl: "/assets/icons/egg.svg",
+//     icon: EggIcon,
+//     type: ["backend"],
+//     href: "https://www.eggjs.org/",
+//   },
+//   {
+//     name: "Koa.js",
+//     iconUrl: "/assets/icons/koa.png",
+//     icon: KoaIcon,
+//     type: ["backend"],
+//     href: "https://koajs.com/",
+//   },
+//   {
+//     name: "Express.js",
+//     iconUrl: "/assets/icons/express.png",
+//     icon: ExpressIcon,
+//     type: ["backend"],
+//     href: "https://expressjs.com/",
+//   },
+//   {
+//     name: "Nest.js",
+//     iconUrl: "/assets/icons/nestjs.svg",
+//     icon: NestIcon,
+//     type: ["backend"],
+//     href: "https://nestjs.com/",
+//   },
+//   {
+//     name: "Next.js",
+//     iconUrl: "/assets/icons/nextjs.png",
+//     icon: NextIcon,
+//     type: ["fontend", "backend"],
+//     href: "https://nextjs.org/",
+//   },
+//   {
+//     name: "TypeScript",
+//     iconUrl: "/assets/icons/typescript.svg",
+//     icon: TypeScriptIcon,
+//     type: ["fontend", "backend"],
+//     href: "https://www.typescriptlang.org/",
+//   },
+//   {
+//     name: "Vue",
+//     iconUrl: "/assets/icons/vue.svg",
+//     icon: VueIcon,
+//     type: ["fontend"],
+//     href: "https://vuejs.org/",
+//   },
+//   {
+//     name: "React",
+//     iconUrl: "/assets/icons/react.svg",
+//     icon: ReactIcon,
+//     type: ["fontend"],
+//     href: "https://reactjs.org/",
+//   },
+//   {
+//     name: "Astro",
+//     iconUrl: "/assets/icons/astro.svg",
+//     icon: AstroIcon,
+//     type: ["fontend"],
+//     href: "https://astro.build/",
+//   },
+//   {
+//     name: "Webpack",
+//     iconUrl: "/assets/icons/webpack.svg",
+//     icon: WebpackIcon,
+//     type: ["tools"],
+//     href: "https://webpack.js.org/",
+//   },
+//   {
+//     name: "Babel",
+//     iconUrl: "/assets/icons/babel.png",
+//     icon: BabelIcon,
+//     type: ["tools"],
+//     href: "https://babeljs.io/",
+//   },
+//   {
+//     name: "Vite",
+//     iconUrl: "/assets/icons/vite.svg",
+//     icon: ViteIcon,
+//     type: ["tools"],
+//     href: "https://vitejs.dev/",
+//   },
+//   {
+//     name: "Esbuild",
+//     iconUrl: "/assets/icons/esbuild.svg",
+//     icon: EsbuildIcon,
+//     type: ["tools"],
+//     href: "https://esbuild.github.io/",
+//   },
+//   {
+//     name: "Rollup",
+//     iconUrl: "/assets/icons/rollup.png",
+//     icon: RollupIcon,
+//     type: ["tools"],
+//     href: "https://rollupjs.org/",
+//   },
+//   {
+//     name: "Sass",
+//     iconUrl: "/assets/icons/sass.svg",
+//     icon: SassIcon,
+//     type: ["fontend"],
+//     href: "https://sass-lang.com/",
+//   },
+//   {
+//     name: "Less",
+//     iconUrl: "/assets/icons/less.png",
+//     icon: LessIcon,
+//     type: ["fontend"],
+//     href: "https://lesscss.org/",
+//   },
+//   {
+//     name: "Emotion",
+//     iconUrl: "/assets/icons/emotion.png",
+//     icon: EmotionIcon,
+//     type: ["fontend"],
+//     href: "https://emotion.sh/",
+//   },
+//   {
+//     name: "Styled Components",
+//     iconUrl: "/assets/icons/styled-components.png",
+//     icon: StyledComponentsIcon,
+//     type: ["fontend"],
+//     href: "https://styled-components.com/",
+//   },
+//   {
+//     name: "TailwindCSS",
+//     iconUrl: "/assets/icons/tailwindcss.svg",
+//     icon: TailwindCSSIcon,
+//     type: ["fontend"],
+//     href: "https://tailwindcss.com/",
+//   },
+//   {
+//     name: "Git",
+//     iconUrl: "/assets/icons/git.svg",
+//     icon: GitIcon,
+//     type: ["tools"],
+//     href: "https://git-scm.com/",
+//   },
+//   {
+//     name: "Github",
+//     iconUrl: "/assets/icons/github.svg",
+//     icon: GithubIcon,
+//     type: ["tools"],
+//     href: "https://github.com/",
+//   },
+//   {
+//     name: "Docker",
+//     iconUrl: "/assets/icons/docker.svg",
+//     icon: DockerIcon,
+//     type: ["devops"],
+//     href: "https://www.docker.com/",
+//   },
+//   {
+//     name: "Nginx",
+//     iconUrl: "/assets/icons/nginx.svg",
+//     icon: NginxIcon,
+//     type: ["devops"],
+//     href: "https://nginx.org/",
+//   },
+//   {
+//     name: "MySQL",
+//     iconUrl: "/assets/icons/mysql.svg",
+//     icon: MySQLIcon,
+//     type: ["backend"],
+//     href: "https://www.mysql.com/",
+//   },
+//   {
+//     name: "MongoDB",
+//     iconUrl: "/assets/icons/mongodb.svg",
+//     icon: MongoDBIcon,
+//     type: ["backend"],
+//     href: "https://www.mongodb.com/",
+//   },
+//   {
+//     name: "VS Code",
+//     iconUrl: "/assets/icons/vscode.jpeg",
+//     icon: VSCodeIcon,
+//     type: ["tools"],
+//     href: "https://code.visualstudio.com/",
+//   },
+// ], "iconUrl");
 
-const skills = normalizeAssets([
-  {
-    name: "HTML",
-    iconUrl: "/assets/icons/html.svg",
-    type: ["fontend"],
-    href: "https://developer.mozilla.org/zh-CN/docs/Web/HTML",
-  },
-  {
-    name: "CSS",
-    iconUrl: "/assets/icons/css.svg",
-    type: ["fontend"],
-    href: "https://developer.mozilla.org/zh-CN/docs/Web/CSS",
-  },
-  {
-    name: "JavaScript",
-    iconUrl: "/assets/icons/javascript.svg",
-    type: ["fontend"],
-    href: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
-  },
-  {
-    name: "Node.js",
-    iconUrl: "/assets/icons/nodejs.svg",
-    type: ["fontend", "backend"],
-    href: "https://nodejs.org/",
-  },
-  {
-    name: "Egg.js",
-    iconUrl: "/assets/icons/egg.svg",
-    type: ["backend"],
-    href: "https://www.eggjs.org/",
-  },
-  {
-    name: "Koa.js",
-    iconUrl: "/assets/icons/koa.png",
-    type: ["backend"],
-    href: "https://koajs.com/",
-  },
-  {
-    name: "Express.js",
-    iconUrl: "/assets/icons/express.png",
-    type: ["backend"],
-    href: "https://expressjs.com/",
-  },
-  {
-    name: "Nest.js",
-    iconUrl: "/assets/icons/nestjs.svg",
-    type: ["backend"],
-    href: "https://nestjs.com/",
-  },
-  {
-    name: "Next.js",
-    iconUrl: "/assets/icons/nextjs.ico",
-    type: ["fontend", "backend"],
-    href: "https://nextjs.org/",
-  },
-  {
-    name: "TypeScript",
-    iconUrl: "/assets/icons/typescript.svg",
-    type: ["fontend", "backend"],
-    href: "https://www.typescriptlang.org/",
-  },
-  {
-    name: "Vue",
-    iconUrl: "/assets/icons/vue.svg",
-    type: ["fontend"],
-    href: "https://vuejs.org/",
-  },
-  {
-    name: "React",
-    iconUrl: "/assets/icons/react.svg",
-    type: ["fontend"],
-    href: "https://reactjs.org/",
-  },
-  {
-    name: "Astro",
-    iconUrl: "/assets/icons/astro.svg",
-    type: ["fontend"],
-    href: "https://astro.build/",
-  },
-  {
-    name: "Webpack",
-    iconUrl: "/assets/icons/webpack.svg",
-    type: ["tools"],
-    href: "https://webpack.js.org/",
-  },
-  {
-    name: "Babel",
-    iconUrl: "/assets/icons/babel.png",
-    type: ["tools"],
-    href: "https://babeljs.io/",
-  },
-  {
-    name: "Vite",
-    iconUrl: "/assets/icons/vite.svg",
-    type: ["tools"],
-    href: "https://vitejs.dev/",
-  },
-  {
-    name: "Esbuild",
-    iconUrl: "/assets/icons/esbuild.svg",
-    type: ["tools"],
-    href: "https://esbuild.github.io/",
-  },
-  {
-    name: "Rollup",
-    iconUrl: "/assets/icons/rollup.png",
-    type: ["tools"],
-    href: "https://rollupjs.org/",
-  },
-  {
-    name: "Sass",
-    iconUrl: "/assets/icons/sass.svg",
-    type: ["fontend"],
-    href: "https://sass-lang.com/",
-  },
-  {
-    name: "Less",
-    iconUrl: "/assets/icons/less.png",
-    type: ["fontend"],
-    href: "https://lesscss.org/",
-  },
-  {
-    name: "Emotion",
-    iconUrl: "/assets/icons/emotion.png",
-    type: ["fontend"],
-    href: "https://emotion.sh/",
-  },
-  {
-    name: "Styled Components",
-    iconUrl: "/assets/icons/styled-components.png",
-    type: ["fontend"],
-    href: "https://styled-components.com/",
-  },
-  {
-    name: "TailwindCSS",
-    iconUrl: "/assets/icons/tailwindcss.svg",
-    type: ["fontend"],
-    href: "https://tailwindcss.com/",
-  },
-  {
-    name: "Git",
-    iconUrl: "/assets/icons/git.svg",
-    type: ["tools"],
-    href: "https://git-scm.com/",
-  },
-  {
-    name: "Github",
-    iconUrl: "/assets/icons/github.svg",
-    type: ["tools"],
-    href: "https://github.com/",
-  },
-  {
-    name: "Docker",
-    iconUrl: "/assets/icons/docker.svg",
-    type: ["devops"],
-    href: "https://www.docker.com/",
-  },
-  {
-    name: "Nginx",
-    iconUrl: "/assets/icons/nginx.svg",
-    type: ["devops"],
-    href: "https://nginx.org/",
-  },
-  {
-    name: "MySQL",
-    iconUrl: "/assets/icons/mysql.svg",
-    type: ["backend"],
-    href: "https://www.mysql.com/",
-  },
-  {
-    name: "MongoDB",
-    iconUrl: "/assets/icons/mongodb.svg",
-    type: ["backend"],
-    href: "https://www.mongodb.com/",
-  },
-  {
-    name: "VS Code",
-    iconUrl: "/assets/icons/vscode.ico",
-    type: ["tools"],
-    href: "https://code.visualstudio.com/",
-  },
-],"iconUrl");
+const skills = normalizeAssets(
+  [
+    {
+      name: "HTML",
+      iconUrl: "/assets/icons/html.svg",
+      type: ["fontend"],
+      href: "https://developer.mozilla.org/zh-CN/docs/Web/HTML",
+    },
+    {
+      name: "CSS",
+      iconUrl: "/assets/icons/css.svg",
+      type: ["fontend"],
+      href: "https://developer.mozilla.org/zh-CN/docs/Web/CSS",
+    },
+    {
+      name: "JavaScript",
+      iconUrl: "/assets/icons/javascript.svg",
+      type: ["fontend"],
+      href: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript",
+    },
+    {
+      name: "Node.js",
+      iconUrl: "/assets/icons/nodejs.svg",
+      type: ["fontend", "backend"],
+      href: "https://nodejs.org/",
+    },
+    {
+      name: "Egg.js",
+      iconUrl: "/assets/icons/egg.svg",
+      type: ["backend"],
+      href: "https://www.eggjs.org/",
+    },
+    {
+      name: "Koa.js",
+      iconUrl: "/assets/icons/koa.png",
+      type: ["backend"],
+      href: "https://koajs.com/",
+    },
+    {
+      name: "Express.js",
+      iconUrl: "/assets/icons/express.png",
+      type: ["backend"],
+      href: "https://expressjs.com/",
+    },
+    {
+      name: "Nest.js",
+      iconUrl: "/assets/icons/nestjs.svg",
+      type: ["backend"],
+      href: "https://nestjs.com/",
+    },
+    {
+      name: "Next.js",
+      iconUrl: "/assets/icons/nextjs.png",
+      type: ["fontend", "backend"],
+      href: "https://nextjs.org/",
+    },
+    {
+      name: "TypeScript",
+      iconUrl: "/assets/icons/typescript.svg",
+      type: ["fontend", "backend"],
+      href: "https://www.typescriptlang.org/",
+    },
+    {
+      name: "Vue",
+      iconUrl: "/assets/icons/vue.svg",
+      type: ["fontend"],
+      href: "https://vuejs.org/",
+    },
+    {
+      name: "React",
+      iconUrl: "/assets/icons/react.svg",
+      type: ["fontend"],
+      href: "https://reactjs.org/",
+    },
+    {
+      name: "Astro",
+      iconUrl: "/assets/icons/astro.svg",
+      type: ["fontend"],
+      href: "https://astro.build/",
+    },
+    {
+      name: "Webpack",
+      iconUrl: "/assets/icons/webpack.svg",
+      type: ["tools"],
+      href: "https://webpack.js.org/",
+    },
+    {
+      name: "Babel",
+      iconUrl: "/assets/icons/babel.png",
+      type: ["tools"],
+      href: "https://babeljs.io/",
+    },
+    {
+      name: "Vite",
+      iconUrl: "/assets/icons/vite.svg",
+      type: ["tools"],
+      href: "https://vitejs.dev/",
+    },
+    {
+      name: "Esbuild",
+      iconUrl: "/assets/icons/esbuild.svg",
+      type: ["tools"],
+      href: "https://esbuild.github.io/",
+    },
+    {
+      name: "Rollup",
+      iconUrl: "/assets/icons/rollup.png",
+      type: ["tools"],
+      href: "https://rollupjs.org/",
+    },
+    {
+      name: "Sass",
+      iconUrl: "/assets/icons/sass.svg",
+      type: ["fontend"],
+      href: "https://sass-lang.com/",
+    },
+    {
+      name: "Less",
+      iconUrl: "/assets/icons/less.png",
+      type: ["fontend"],
+      href: "https://lesscss.org/",
+    },
+    {
+      name: "Emotion",
+      iconUrl: "/assets/icons/emotion.png",
+      type: ["fontend"],
+      href: "https://emotion.sh/",
+    },
+    {
+      name: "Styled Components",
+      iconUrl: "/assets/icons/styled-components.png",
+      type: ["fontend"],
+      href: "https://styled-components.com/",
+    },
+    {
+      name: "TailwindCSS",
+      iconUrl: "/assets/icons/tailwindcss.svg",
+      type: ["fontend"],
+      href: "https://tailwindcss.com/",
+    },
+    {
+      name: "Git",
+      iconUrl: "/assets/icons/git.svg",
+      type: ["tools"],
+      href: "https://git-scm.com/",
+    },
+    {
+      name: "Github",
+      iconUrl: "/assets/icons/github.svg",
+      type: ["tools"],
+      href: "https://github.com/",
+    },
+    {
+      name: "Docker",
+      iconUrl: "/assets/icons/docker.svg",
+      type: ["devops"],
+      href: "https://www.docker.com/",
+    },
+    {
+      name: "Nginx",
+      iconUrl: "/assets/icons/nginx.svg",
+      type: ["devops"],
+      href: "https://nginx.org/",
+    },
+    {
+      name: "MySQL",
+      iconUrl: "/assets/icons/mysql.svg",
+      type: ["backend"],
+      href: "https://www.mysql.com/",
+    },
+    {
+      name: "MongoDB",
+      iconUrl: "/assets/icons/mongodb.svg",
+      type: ["backend"],
+      href: "https://www.mongodb.com/",
+    },
+    {
+      name: "VS Code",
+      iconUrl: "/assets/icons/vscode.jpeg",
+      type: ["tools"],
+      href: "https://code.visualstudio.com/",
+    },
+  ],
+  "iconUrl",
+);
 
 const filterSkilsType = (skills: any, type: string) => {
   return skills.filter((item: any) => item?.type?.includes(type));
@@ -218,6 +466,72 @@ const skillsCollection = [
     key: "tools",
     name: "Tools",
     skills: filterSkilsType(skills, "tools"),
+  },
+];
+
+const links = [
+  {
+    name: "博客",
+    url: "https://www.zzcyes.com/blogs/",
+    icon: "icon-article.png",
+    // iconNode: ArticleIcon,
+    className: "icon-article",
+  },
+  {
+    name: "GitHub",
+    url: "https://github.com/zzcyes",
+    icon: "icon-github.png",
+    // iconNode: GitHubIcon,
+    className: "icon-github",
+  },
+  {
+    name: "Projects",
+    url: "https://www.zzcyes.com/projects/webfolio",
+    icon: "icon-projects.png",
+    // iconNode: ProjectsIcon,
+    className: "icon-projects",
+  },
+  {
+    name: "简历",
+    url: "https://www.zzcyes.com/resume.html",
+    icon: "icon-resume.png",
+    // iconNode: ResumeIcon,
+    className: "icon-resume",
+  },
+  {
+    name: "邮箱",
+    url: "mailto:zhongzichen1997@163.com",
+    icon: "icon-email.png",
+    // iconNode: EmailIcon,
+    className: "icon-email",
+  },
+  {
+    name: "Guitar",
+    url: "https://music.163.com/#/user/fans?id=482295750",
+    icon: "icon-guitar.png",
+    // iconNode: GuitarIcon,
+    className: "icon-guitar",
+  },
+  {
+    name: "Rain",
+    url: "https://www.zzcyes.com/rain.html",
+    icon: "icon-rain.png",
+    // iconNode: RainIcon,
+    className: "icon-rain",
+  },
+  {
+    name: "Mambma Never Out",
+    url: "https://www.zzcyes.com/kobe.html",
+    icon: "icon-kobe.png",
+    // iconNode:KobeIcon,
+    className: "icon-kobe",
+  },
+  {
+    name: "Luck",
+    url: "https://www.zzcyes.com/luck.html",
+    icon: "icon-luck.png",
+    // iconNode: LuckIcon,
+    className: "icon-luck",
   },
 ];
 ---
@@ -259,7 +573,9 @@ const skillsCollection = [
     <div class="block-container">
       <div class="block-bar">
         <div class="bar-title">Notes</div>
-        <button class="bar-action"> <a href=`${baseUrl}/notes`> All Notes</a></button>
+        <button class="bar-action">
+          <a href=`${baseUrl}/notes`> All Notes</a></button
+        >
       </div>
       <ul class="post-list">
         {
@@ -282,23 +598,33 @@ const skillsCollection = [
 
       {
         skillsCollection.map((item: any) => (
-          <div class="skills-collection-block" data-category={item.key}>
-            <div class="skills-collection-title">{item.name}</div>
-            <ul class="skills-container">
-              {item.skills?.map((skill: any) => (
-                <a href={skill.href} target="_blank" rel="noopener noreferrer">
-                  <li class="skill-item" draggable="true">
-                    <img
-                      src={skill.iconUrl}
-                      alt={skill.name}
-                      class="skill-icon"
-                    />
-                    <span class="skill-name">{skill.name}</span>
-                  </li>
-                </a>
-              ))}
-            </ul>
-          </div>
+          <SkillCollectioinBlock item={item} />
+          // <div class="skills-collection-block" data-category={item.key} >
+          //   <div class="skills-collection-title">{item.name}</div>
+          //   <ul class="skills-container">
+          //     {item.skills?.map((skill: any) => (
+          //       <a href={skill.href} target="_blank" rel="noopener noreferrer">
+          //         <li class="skill-item" draggable="true">
+          //           {/* <div
+          //           style={`--base: ${baseUrl}`}
+          //             alt={skill.name}
+          //             class={`skill-icon icon-${skill.name.toLowerCase()}`}
+          //           /> */}
+          //           <img
+          //             client:visible
+          //             src={skill.iconUrl}
+          //             data-src={skill.iconUrl}
+          //             alt={skill.name}
+          //             // width={40}
+          //             // height={40}
+          //             class="skill-icon"
+          //           />
+          //           <span class="skill-name">{skill.name}</span>
+          //         </li>
+          //       </a>
+          //     ))}
+          //   </ul>
+          // </div>
         ))
       }
     </div>
@@ -407,7 +733,7 @@ const skillsCollection = [
       }
     }
 
-    .skills-collection-block {
+    /* .skills-collection-block {
       display: flex;
       flex-direction: column;
       margin-bottom: 2rem;
@@ -434,7 +760,7 @@ const skillsCollection = [
       text-align: center;
       padding: 1rem;
       border-radius: 8px;
-      background-color: var(--color-background-secondary);
+      background-color: var(--color-text-secondary);
       transition:
         transform 0.2s ease-in-out,
         box-shadow 0.2s ease-in-out;
@@ -446,15 +772,21 @@ const skillsCollection = [
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
+
+    img.error {
+      display: none;
+    }
+
     .skill-icon {
       width: 40px;
       height: 40px;
       margin-bottom: 0.5rem;
+      background-color: var(--color-text-secondary);
     }
 
     .skill-name {
       font-size: 0.9rem;
       color: var(--color-text-secondary);
-    }
+    } */
   }
 </style>

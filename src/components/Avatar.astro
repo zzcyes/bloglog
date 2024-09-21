@@ -1,7 +1,9 @@
 ---
-import { getAssetPath} from "../common/utils";
+import { getAssetPath } from "../common/utils";
 const lightVideoSrc = getAssetPath("/assets/video/light-avatar.mp4");
 const nightVideoSrc = getAssetPath("/assets/video/night-avatar.mp4");
+const lightImage = getAssetPath("/assets/video/light-avatar.png");
+const nightImage = getAssetPath("/assets/video/night-avatar.png");
 ---
 
 <div class="avatar-container">
@@ -13,10 +15,21 @@ const nightVideoSrc = getAssetPath("/assets/video/night-avatar.mp4");
     <source src={nightVideoSrc} type="video/mp4" />
     您的浏览器不支持视频标签。
   </video>
+  <img
+    class="avatar-image avatar-image-light hidden"
+    src={lightImage}
+    alt="Light Avatar"
+  />
+  <img
+    class="avatar-image avatar-image-night hidden"
+    src={nightImage}
+    alt="Night Avatar"
+  />
 </div>
 
 <style>
   .avatar-container {
+    position: relative;
     width: 100%;
     height: 100%;
     min-width: 100px;
@@ -29,9 +42,23 @@ const nightVideoSrc = getAssetPath("/assets/video/night-avatar.mp4");
       border-radius: 50%;
     }
 
-
     & .avatar-video-light {
       transform: scale(0.8);
+    }
+
+    .avatar-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      &.hidden {
+        opacity: 0;
+      }
+    }
+
+    .avatar-image-night,
+    .avatar-image-light {
+      border-radius: 50%;
+      background-color: transparent;
     }
   }
 </style>
@@ -58,8 +85,30 @@ const nightVideoSrc = getAssetPath("/assets/video/night-avatar.mp4");
     });
   }
 
+  function changeImage(theme: string | null) {
+    const lightDoms = document.querySelectorAll(".avatar-image-light");
+    const darkDoms = document.querySelectorAll(".avatar-image-night");
+
+    lightDoms.forEach((item) => {
+      if (theme === "dark") {
+        item.classList.add("hidden");
+      } else {
+        item.classList.remove("hidden");
+      }
+    });
+
+    darkDoms.forEach((item) => {
+      if (theme === "dark") {
+        item.classList.remove("hidden");
+      } else {
+        item.classList.add("hidden");
+      }
+    });
+  }
+
   function initAvatar() {
     const theme = document.documentElement.getAttribute("data-theme");
+    changeImage(theme);
     changeAvatar(theme);
 
     const observer = new MutationObserver((mutations) => {
@@ -69,6 +118,7 @@ const nightVideoSrc = getAssetPath("/assets/video/night-avatar.mp4");
           mutation.attributeName === "data-theme"
         ) {
           const newTheme = document.documentElement.getAttribute("data-theme");
+          changeImage(newTheme);
           changeAvatar(newTheme);
         }
       });
@@ -77,6 +127,17 @@ const nightVideoSrc = getAssetPath("/assets/video/night-avatar.mp4");
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-theme"],
+    });
+    document.querySelectorAll(".avatar-container").forEach((block) => {
+      // 监听视频加载成功事件
+      block.querySelectorAll("video").forEach((video) => {
+        console.debug("监听视频加载成功事件");
+        video.addEventListener("canplaythrough", () => {
+          block.querySelectorAll(".avatar-image").forEach((img) => {
+            img.classList.add("hidden");
+          });
+        });
+      });
     });
   }
 

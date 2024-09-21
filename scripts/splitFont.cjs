@@ -10,7 +10,7 @@ const getExtractTexts = () => {
     if (!/\.md$/.test(dir)) return;
     const fileContent = fs.readFileSync(
       path.resolve(__dirname, `../src/content/${dir}`),
-      "utf-8"
+      "utf-8",
     );
     const miniFileContent = removeAllSpaces(fileContent);
     extractTexts.push(miniFileContent);
@@ -50,7 +50,7 @@ const runFontmin = ({ extractText, fontName, filePath, exportPath }) => {
       Fontmin.glyph({
         text: extractText,
         hinting: false, // keep ttf hint info (fpgm, prep, cvt). default = true
-      })
+      }),
     )
     // // .use(Fontmin.ttf2eot())
     // // .use(Fontmin.ttf2svg())
@@ -75,7 +75,7 @@ const getArticleTitles = () => {
   const titles = removeDuplicatesString(
     require("./../content.json")
       .map((a) => a.title)
-      .join("")
+      .join(""),
   );
   return titles;
 };
@@ -92,7 +92,7 @@ runFontmin({
   extractText: getExtractTexts() + Commonfonts.join(""),
   filePath: path.resolve(
     __dirname,
-    "../public/assets/font/Alibaba-PuHuiTi-*.ttf"
+    "../public/assets/font/Alibaba-PuHuiTi-*.ttf",
   ),
   exportPath: outputPath,
 });

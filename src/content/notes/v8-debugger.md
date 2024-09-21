@@ -26,7 +26,7 @@ jsvu
 
 ### 配置环境变量
 
-首先添加用户变量`V8_HOME` , 变量值为 `.jsvu` 的目录 
+首先添加用户变量`V8_HOME` , 变量值为 `.jsvu` 的目录
 
 ![image-20220527111749128](D:\zhongzichen\markdown\docs\images\V8源码调试\image-20220527111749128.png)
 
@@ -44,9 +44,14 @@ jsvu
 
 ```js
 // test.js
-let a = [1, "hello", true, function() {
+let a = [
+  1,
+  "hello",
+  true,
+  function () {
     return 1;
-}];
+  },
+];
 console.debug(%DebugPrint(a));
 ```
 
@@ -61,4 +66,3 @@ d8 test.js --allow-natives-syntax
 - [JavaScript 引擎 V8 执行流程概述](https://mp.weixin.qq.com/s/t__Jqzg1rbTlsCHXKMwh6A)
 - [v8-debug 与 V8 编译流程 - 掘金](https://juejin.cn/post/6979149480960458788#comment)
 - [探究JS V8引擎下的“数组”底层实现](https://mp.weixin.qq.com/s?__biz=MzI4NjY4MTU5Nw==&mid=2247486244&idx=2&sn=f215f9a64fc622622e4a86d8f22e9ba6&chksm=ebd87bb6dcaff2a0d78f7e6175ae0f3eca753f09b3d51d6e2ce25ddaf737aef15c42dc9e9d87&scene=178&cur_album_id=1500522652875194368#rd)
-    

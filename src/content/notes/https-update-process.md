@@ -85,11 +85,11 @@ date: "2021-10-15 09:55:44"
 server {
   #listen       80;
   listen 443 ssl;
-  server_name www.xxx.com; 
+  server_name www.xxx.com;
 
   ssl_certificate	 /var/www/.ssl/www.xxx.com.pem;
   ssl_certificate_key	 /var/www/.ssl/www.xxx.com.key;
- 
+
   #ssl_session_cache	 shared:SSL:1m;
   #ssl_session_timeout 	 5m;
 
@@ -109,4 +109,3 @@ server {
 - [HTTP升级HTTPS全过程记录 - SegmentFault 思否](https://segmentfault.com/a/1190000022597768)
 
 - [HTTPS 升级指南 - 阮一峰的网络日志](https://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html)
-    

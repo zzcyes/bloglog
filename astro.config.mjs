@@ -35,4 +35,7 @@ export default defineConfig({
       transformers: [],
     },
   },
+  build: {
+    assetsInlineLimit: 10 * 1024, // 10KB
+  },
 });

@@ -162,4 +162,3 @@ CSRF通常从第三方网站发起，被攻击的网站无法防止攻击发生�
 - [CSRF攻击技术浅析 - 先知社区](https://xz.aliyun.com/t/8186)
 
 - [002 谈谈 CSRF 攻击 | 三元博客](http://47.98.159.95/my_blog/blogs/browser/browser-security/002.html#_3-csrf-token)
-    

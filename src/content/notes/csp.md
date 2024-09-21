@@ -9,12 +9,15 @@ date: "2021-09-29 16:37:09"
 
 CSP 是一个额外的安全层，用于检测并削弱某些特定类型的攻击，包括跨站脚本 (XSS) 和数据注入攻击等。无论是数据盗取、网站内容污染还是散发恶意软件，这些攻击都是主要的手段。
 
-为使CSP可用, 你需要配置你的网络服务器返回  `Content-Security-Policy`  HTTP头部 ( 有时你会看到一些关于`X-Content-Security-Policy`头部的提法, 那是旧版本，你无须再如此指定它)。
+为使CSP可用, 你需要配置你的网络服务器返回 `Content-Security-Policy` HTTP头部 ( 有时你会看到一些关于`X-Content-Security-Policy`头部的提法, 那是旧版本，你无须再如此指定它)。
 
 除此之外, `<meta>` 元素也可以被用来配置该策略:
 
 ```html
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';">
+<meta
+  http-equiv="Content-Security-Policy"
+  content="default-src 'self'; img-src https://*; child-src 'none';"
+/>
 ```
 
 ## 使用CSP
@@ -59,4 +62,3 @@ Content-Security-Policy: default-src <source> <source>;
 
 - [内容安全策略( CSP ) - HTTP | MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP)
 - [CSP: default-src - HTTP | MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy/default-src)
-    

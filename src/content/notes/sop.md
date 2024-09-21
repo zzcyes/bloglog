@@ -42,13 +42,13 @@ Cookie 是服务器写入浏览器的一小段信息，只有同源的网页才�
 网页A、B设置
 
 ```javascript
-document.domain = 'example.com';
+document.domain = "example.com";
 ```
 
 现在，A网页设置一个 Cookie
 
 ```javascript
-document.cookie = "key=value"
+document.cookie = "key=value";
 ```
 
 在B网页可以读到这个 Cookie
@@ -72,7 +72,7 @@ Set-Cookie: key=value; domain=.example.com; path=/
 如果两个网页不同源，就无法拿到对方的DOM。典型的例子是iframe窗口和window.open方法打开的窗口，它们与父窗口无法通信。
 
 ```javascript
-document.getElementById("myIFrame").contentWindow.document
+document.getElementById("myIFrame").contentWindow.document;
 // Uncaught DOMException: Blocked a frame from accessing a cross-origin frame.
 ```
 
@@ -81,7 +81,7 @@ document.getElementById("myIFrame").contentWindow.document
 反之亦然，子窗口获取主窗口的DOM也会报错。
 
 ```javascript
-window.parent.document.body
+window.parent.document.body;
 // 报错
 ```
 
@@ -97,7 +97,7 @@ window.parent.document.body
 
 ```javascript
 var src = `${originURL}#${data}`;
-document.getElementById('myIFrame').src = src;
+document.getElementById("myIFrame").src = src;
 // 子窗口通过监听hashchange事件得到通知。
 window.onhashchange = checkMessage;
 function checkMessage() {
@@ -105,20 +105,20 @@ function checkMessage() {
   // ...
 }
 // 同样的，子窗口也可以改变父窗口的片段标识符。
-parent.location.href= `${target}#${hash}`;
+parent.location.href = `${target}#${hash}`;
 ```
 
 #### window.name
 
- 浏览器窗口有`window.name`属性。这个属性的最大特点是，无论是否同源，只要在同一个窗口里，前一个网页设置了这个属性，后一个网页可以读取它。
+浏览器窗口有`window.name`属性。这个属性的最大特点是，无论是否同源，只要在同一个窗口里，前一个网页设置了这个属性，后一个网页可以读取它。
 
 ```javascript
 // 父窗口先打开一个子窗口，载入一个不同源的网页，该网页将信息写入window.name属性。
 window.name = data;
 // 接着，子窗口跳回一个与主窗口同域的网址。
-location = 'http://parent.url.com/xxx.html';
+location = "http://parent.url.com/xxx.html";
 // 然后，主窗口就可以读取子窗口的window.name了。
-var data = document.getElementById('myFrame').contentWindow.name;
+var data = document.getElementById("myFrame").contentWindow.name;
 ```
 
 这种方法的优点是，window.name容量很大，可以放置非常长的字符串；缺点是必须监听子窗口window.name属性的变化，影响网页性能。
@@ -146,17 +146,17 @@ http://localhost:3000/A.html
 
 ```html
 <html>
-<body>
+  <body>
     A.html
     <script>
-        const newWindow = window.open('http://127.0.0.1:4000/B', 'B');
-        newWindow.postMessage('您好，我是AA', 'http://127.0.0.1:4000/B')//向端口为4000的域发送内容
-        window.onmessage = function (e) {
-            console.log('A-e：', e)
-            console.log('A-e.data：', e.data);
-        }
+      const newWindow = window.open("http://127.0.0.1:4000/B", "B");
+      newWindow.postMessage("您好，我是AA", "http://127.0.0.1:4000/B"); //向端口为4000的域发送内容
+      window.onmessage = function (e) {
+        console.log("A-e：", e);
+        console.log("A-e.data：", e.data);
+      };
     </script>
-</body>
+  </body>
 </html>
 ```
 
@@ -164,18 +164,18 @@ http://localhost:4000/B.html
 
 ```html
 <html>
-<body>
+  <body>
     B.html
     <script type="text/javascript">
-        window.onmessage = function (e) {
-            console.log('B-e：', e)
-            console.log('B-e.data：', e.data);
-            //向父级（发射源）发送消息
-            window.opener.postMessage('您好，我是BB', 'http://127.0.0.1:3000/A');
-            // e.source.postMessage('您好，我是BB', 'http://127.0.0.1:3000/A');
-        }
+      window.onmessage = function (e) {
+        console.log("B-e：", e);
+        console.log("B-e.data：", e.data);
+        //向父级（发射源）发送消息
+        window.opener.postMessage("您好，我是BB", "http://127.0.0.1:3000/A");
+        // e.source.postMessage('您好，我是BB', 'http://127.0.0.1:3000/A');
+      };
     </script>
-</body>
+  </body>
 </html>
 ```
 
@@ -187,22 +187,25 @@ http://127.0.0.1:3000/A
 
 ```html
 <html>
-<body>
+  <body>
     A.html
     <script>
-      const newWindow = window.open('http://127.0.0.1:4000/B', 'B');
-      newWindow.postMessage({
-        name: 'AA',
-        message: '您好，我是AA'
-      }, 'http://127.0.0.1:4000/B')//向端口为4000的域发送内容
+      const newWindow = window.open("http://127.0.0.1:4000/B", "B");
+      newWindow.postMessage(
+        {
+          name: "AA",
+          message: "您好，我是AA",
+        },
+        "http://127.0.0.1:4000/B",
+      ); //向端口为4000的域发送内容
       window.onmessage = function (e) {
-        console.log('A-e：', e)
-        console.log('A-e.data：', e.data);
+        console.log("A-e：", e);
+        console.log("A-e.data：", e.data);
         const { name, message } = e.data;
         localStorage.setItem(name, message);
-      }
-		</script>
-</body>
+      };
+    </script>
+  </body>
 </html>
 ```
 
@@ -210,21 +213,24 @@ http://127.0.0.1:4000/B
 
 ```html
 <html>
-<body>
+  <body>
     B.html
     <script type="text/javascript">
-        window.onmessage = function (e) {
-            console.log('B-e：', e)
-            console.log('B-e.data：', e.data);
-            //向父级（发射源）发送消息
-            window.opener.postMessage({
-                name: 'BB',
-                message: '您好，我是BB'
-            }, 'http://127.0.0.1:3000/A');
-            // e.source.postMessage('您好，我是BB', 'http://127.0.0.1:3000/A');
-        }
+      window.onmessage = function (e) {
+        console.log("B-e：", e);
+        console.log("B-e.data：", e.data);
+        //向父级（发射源）发送消息
+        window.opener.postMessage(
+          {
+            name: "BB",
+            message: "您好，我是BB",
+          },
+          "http://127.0.0.1:3000/A",
+        );
+        // e.source.postMessage('您好，我是BB', 'http://127.0.0.1:3000/A');
+      };
     </script>
-</body>
+  </body>
 </html>
 ```
 
@@ -246,43 +252,43 @@ JSONP是服务器与客户端跨源通信的常用方法。**最大特点就是�
 
 ```javascript
 function addScriptTag(src) {
-  var script = document.createElement('script');
+  var script = document.createElement("script");
   script.setAttribute("type", "text/javascript");
   script.src = src;
   document.body.appendChild(script);
 }
 window.onload = function () {
-  addScriptTag('http://localhost:3000/name?callback=foo');
-}
+  addScriptTag("http://localhost:3000/name?callback=foo");
+};
 function foo(message) {
   console.log(`message is: ${message.name}!`);
-};
+}
 ```
 
 上面代码通过动态添加<script>元素，向服务器example.com发出请求。注意，该请求的查询字符串有一个callback参数，用来指定回调函数的名字，这对于JSONP是必需的。
 
 ```javascript
-const http = require('http')
-const url = require('url')
-const port = 3000
+const http = require("http");
+const url = require("url");
+const port = 3000;
 const server = http.createServer((req, res) => {
-    const { query } = url.parse(req.url, true);
-    const { callback } = query;
-    console.log('req.query', query);
-    res.statusCode = 200
-    res.setHeader('Content-Type', 'text/plain')
-    res.end(`${callback}({ "name": "JSONP!" })`)
-})
+  const { query } = url.parse(req.url, true);
+  const { callback } = query;
+  console.log("req.query", query);
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/plain");
+  res.end(`${callback}({ "name": "JSONP!" })`);
+});
 server.listen(port, () => {
-    console.log(`服务器运行在 http://localhost:${port}/`)
-})
+  console.log(`服务器运行在 http://localhost:${port}/`);
+});
 ```
 
 服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。
 
 ```javascript
 foo({
-  "name": "JSONP!"
+  name: "JSONP!",
 });
 ```
 
@@ -290,7 +296,7 @@ foo({
 
 #### Nginx
 
-Nginx 是一种高性能的`反向代理`服务器，可以用来轻松解决跨域问题。 
+Nginx 是一种高性能的`反向代理`服务器，可以用来轻松解决跨域问题。
 
 ![sop-202109291617805.png](https://www.zzcyes.com/images/sop-202109291617805.png)
 
@@ -346,12 +352,12 @@ Sec-WebSocket-Protocol: chat
 通常，允许嵌入跨域资源，而阻止读取跨域资源
 
 | iframes    | 通常允许跨域嵌入（取决于`X-Frame-Options`指令），但不允许跨域读取（例如使用JavaScript访问iframe中的文档）。 |
-| ---------- | ------------------------------------------------------------ |
-| CSS        | 跨域CSS可以使用`<link>`元素或`@import`在CSS文件中嵌入。`Content-Type`可能需要正确的标题。 |
-| forms      | 跨域URL可以用作`action`表单元素的属性值。Web应用程序可以将表单数据写入跨域目标。 |
-| images     | 允许嵌入跨域图像。但是，`canvas`将禁止读取跨域图像（例如，使用JavaScript将跨域图像加载到元素中）。 |
-| multimedia | 跨域视频和音频可以使用`<video>`和`<audio>`元素嵌入。         |
-| script     | 可以嵌入跨域脚本；但是，可能会阻止对某些API（例如跨域提取请求）的访问。 |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
+| CSS        | 跨域CSS可以使用`<link>`元素或`@import`在CSS文件中嵌入。`Content-Type`可能需要正确的标题。                   |
+| forms      | 跨域URL可以用作`action`表单元素的属性值。Web应用程序可以将表单数据写入跨域目标。                            |
+| images     | 允许嵌入跨域图像。但是，`canvas`将禁止读取跨域图像（例如，使用JavaScript将跨域图像加载到元素中）。          |
+| multimedia | 跨域视频和音频可以使用`<video>`和`<audio>`元素嵌入。                                                        |
+| script     | 可以嵌入跨域脚本；但是，可能会阻止对某些API（例如跨域提取请求）的访问。                                     |
 
 ## 资源
 
@@ -362,4 +368,3 @@ Sec-WebSocket-Protocol: chat
 - [一文带你看懂cookie，面试前端不用愁](https://zhuanlan.zhihu.com/p/52091630)
 
 - [【9大跨域解决方案】window.name解决跨域的原理](https://blog.csdn.net/qq_17175013/article/details/89007334)
-    

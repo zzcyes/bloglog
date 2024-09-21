@@ -5,13 +5,13 @@ date: "2022-05-27 20:15:36"
 
 ## 确定模块入口
 
-先 cd 到 redux 根目录下，查看  `package.json` 文件的信息，确定下模块入口。
+先 cd 到 redux 根目录下，查看 `package.json` 文件的信息，确定下模块入口。
 
 ![redux-debugger-image-20220524145050748](https://www.zzcyes.com/images/redux-debugger-20220524145050748.png)
 
-### React 
+### React
 
-在 React 项目下进行调试时，我们找到 `module` 字段为 `es/redux.js` 。然后在  `es/redux.js` 文件里打 debugger 进行断点调试。
+在 React 项目下进行调试时，我们找到 `module` 字段为 `es/redux.js` 。然后在 `es/redux.js` 文件里打 debugger 进行断点调试。
 
 Tips：为什么入口不是 `main` 字段 ，推荐阅读这篇文章[《package.json 中 你还不清楚的 browser，module，main 字段优先级》](https://github.com/SunshowerC/blog/issues/8)
 
@@ -23,7 +23,7 @@ Node 环境支持 CommonJS 规范， 在 `package.json` 中，`main` 字段为 `
 
 ### React
 
-为了验证 redux  link 是否生效，我们在  `es/redux.js` 文件下的 `createStore` 函数内部进行 debugger 调试。
+为了验证 redux link 是否生效，我们在 `es/redux.js` 文件下的 `createStore` 函数内部进行 debugger 调试。
 
 ![redux-debugger-image-20220524145654269](https://www.zzcyes.com/images/redux-debugger-20220524145654269.png)
 
@@ -35,25 +35,28 @@ Node 环境支持 CommonJS 规范， 在 `package.json` 中，`main` 字段为 `
 
 ![redux-debugger-image-20220524151255113](https://www.zzcyes.com/images/redux-debugger-20220524151255113.png)
 
-可以看到 Sources 面板中，展示了我们打断点的源码信息，需要注意的是，我们是在 `redux.js` 文件中进行的断点调试，那为什么这里显示的是`createStore.ts` 文件的信息呢? 
+可以看到 Sources 面板中，展示了我们打断点的源码信息，需要注意的是，我们是在 `redux.js` 文件中进行的断点调试，那为什么这里显示的是`createStore.ts` 文件的信息呢?
 
 ![redux-debugger-image-20220524151322772](https://www.zzcyes.com/images/redux-debugger-20220524151322772.png)
 
 ### Node
 
-为了验证 node 环境下 redux  link 是否生效，先进入到 `lib/redux.js` 中添加调试信息
+为了验证 node 环境下 redux link 是否生效，先进入到 `lib/redux.js` 中添加调试信息
 
 ![image-20220526101539133](https://www.zzcyes.com/images/redux-debugger-20220526101539133.png)
 
-接着在 Node 环境下通过 createStore 函数创建 store 
+接着在 Node 环境下通过 createStore 函数创建 store
 
 ```typescript
-const { createStore, combineReducers, applyMiddleware, compose } = require('redux');
-const { counterReducer } = require('./reducer')
+const {
+  createStore,
+  combineReducers,
+  applyMiddleware,
+  compose,
+} = require("redux");
+const { counterReducer } = require("./reducer");
 
-const store = createStore(
-    counterReducer,
-);
+const store = createStore(counterReducer);
 
 console.debug(store.getState());
 ```
@@ -62,13 +65,13 @@ console.debug(store.getState());
 
 ![image-20220526101421535](https://www.zzcyes.com/images/redux-debugger-20220526101421535.png)
 
-Run Debugger 后，会跳转到刚刚在  `lib/redux.js`  打debugger 的位置了，说明之前添加的 redux  link 生效了。那么接下来就可以愉快的调试了！
+Run Debugger 后，会跳转到刚刚在 `lib/redux.js` 打debugger 的位置了，说明之前添加的 redux link 生效了。那么接下来就可以愉快的调试了！
 
 ![image-20220526102150189](https://www.zzcyes.com/images/redux-debugger-20220526102150189.png)
 
 ## Source Map
 
-还记得之前我们修改过 `rollup.config.js` 文件的配置吗，我们配置了  `sourcemap: true`。在 rollup 打包的时候，会在原有输出目录下多打包出一个  `*.js.map` 的文件
+还记得之前我们修改过 `rollup.config.js` 文件的配置吗，我们配置了 `sourcemap: true`。在 rollup 打包的时候，会在原有输出目录下多打包出一个 `*.js.map` 的文件
 
 ![redux-debugger-image-20220524151953295](https://www.zzcyes.com/images/redux-debugger-20220524151953295.png)
 
@@ -84,9 +87,9 @@ redux 源码目录如下：
 |-- redux
     |-- dist                      // 打包后的 redux、source map 文件
     |-- docs                      // 官方文档说明
-    |-- es                        // 打包后支持 ES Modules 的 redux、source map 文件 
+    |-- es                        // 打包后支持 ES Modules 的 redux、source map 文件
     |-- examples                  // 官方案例包括 counter、todomvs等等
-    |-- lib                       // 打包后支持 CommonJS 的 redux、source map 文件   
+    |-- lib                       // 打包后支持 CommonJS 的 redux、source map 文件
     |-- logo                      // logo图标
     |-- scripts                   // 存放 js 文件
         |-- mangleErrors.js           // babel 插件，记录错误信息到 errors.json 文件
@@ -127,7 +130,7 @@ redux 源码目录如下：
     |       |-- kindOf.ts
     |       |-- symbol-observable.ts
     |       |-- warning.ts
-    
+
 ```
 
 - redux/types
@@ -159,7 +162,7 @@ redux 源码目录如下：
 
 ## 源码入口
 
-我们阅读源码的时候可以直接看 redux/src  目录下的 ts 文件，这样方便阅读。碰到有疑惑的点，则可以通过打包构建后的 redux.js 文件进行 debugger 调试，并且在 redux.js 文件末尾加上一行注释  `// sourceMappingURL=redux.js.map` ，可以映射到 sourece map 文件，进而在我们 debugger 调试的时候访问到 redux/src 目录下的 ts 文件。
+我们阅读源码的时候可以直接看 redux/src 目录下的 ts 文件，这样方便阅读。碰到有疑惑的点，则可以通过打包构建后的 redux.js 文件进行 debugger 调试，并且在 redux.js 文件末尾加上一行注释 `// sourceMappingURL=redux.js.map` ，可以映射到 sourece map 文件，进而在我们 debugger 调试的时候访问到 redux/src 目录下的 ts 文件。
 
 - redux/src/index.ts
 
@@ -169,7 +172,7 @@ redux 源码目录如下：
 
   ```typescript
   // ...
-  
+
   // types
   // store
   export {
@@ -183,8 +186,8 @@ redux 源码目录如下：
     StoreCreator,
     StoreEnhancer,
     StoreEnhancerStoreCreator,
-    ExtendState
-  } from './types/store'
+    ExtendState,
+  } from "./types/store";
   // reducers
   export {
     Reducer,
@@ -192,15 +195,15 @@ redux 源码目录如下：
     ReducersMapObject,
     StateFromReducersMapObject,
     ActionFromReducer,
-    ActionFromReducersMapObject
-  } from './types/reducers'
+    ActionFromReducersMapObject,
+  } from "./types/reducers";
   // action creators
-  export { ActionCreator, ActionCreatorsMapObject } from './types/actions'
+  export { ActionCreator, ActionCreatorsMapObject } from "./types/actions";
   // middleware
-  export { MiddlewareAPI, Middleware } from './types/middleware'
+  export { MiddlewareAPI, Middleware } from "./types/middleware";
   // actions
-  export { Action, AnyAction } from './types/actions'
-  
+  export { Action, AnyAction } from "./types/actions";
+
   // ...
   ```
 
@@ -208,23 +211,23 @@ redux 源码目录如下：
 
 ## Redux API
 
-  Redux 源码不到千行，但是其生态却很丰富，以下是完整的 [Redux API](https://redux.js.org/api/api-reference)，后续阅读源码时，也是按照 API 来阅读分析。
+Redux 源码不到千行，但是其生态却很丰富，以下是完整的 [Redux API](https://redux.js.org/api/api-reference)，后续阅读源码时，也是按照 API 来阅读分析。
 
-  Top-Level Exports：
+Top-Level Exports：
 
-  - createStore(reducer, [preloadedState], [enhancer])
-  - combineReducers(reducers)
-  - applyMiddleware(...middlewares)
-  - bindActionCreators(actionCreators, dispatch)
-  - compose(...functions)
+- createStore(reducer, [preloadedState], [enhancer])
+- combineReducers(reducers)
+- applyMiddleware(...middlewares)
+- bindActionCreators(actionCreators, dispatch)
+- compose(...functions)
 
-  Store API
+Store API
 
-  - Store
-    - getState()
-    - dispatch(action)
-    - subscribe(listener)
-    - replaceReducer(nextReducer)
+- Store
+  - getState()
+  - dispatch(action)
+  - subscribe(listener)
+  - replaceReducer(nextReducer)
 
 ## 链接
 
@@ -233,4 +236,3 @@ redux 源码目录如下：
 - [《package.json 中 你还不清楚的 browser，module，main 字段优先级》](https://github.com/SunshowerC/blog/issues/8)）
 
 - [API Reference | Redux](https://redux.js.org/api/api-reference)
-    

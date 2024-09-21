@@ -21,7 +21,7 @@ date: "2022-02-16 17:07:35"
 
 ```html
 <div class="container">
-  <h3>万家灯火，共聚团圆 </h3>
+  <h3>万家灯火，共聚团圆</h3>
   <p><em>正月十五元宵节</em></p>
   <div class="ad">
     <iframe src="https://www.zzcyes.com/yuanxiao/ci.html"></iframe>
@@ -30,6 +30,7 @@ date: "2022-02-16 17:07:35"
 ```
 
 ## 问题
+
 把代码提交之后，打开我们的主站，效果却变成了这样：
 
 ![iframe-load-url-03.png](https://www.zzcyes.com/images/iframe-load-url-03.png)
@@ -45,7 +46,7 @@ _Refused to display '[https://www.zzcyes.com/'](https://www.zzcyes.com/') in a f
 
 MDN对它的解释如下：
 
->The X-Frame-Options HTTP 响应头是用来给浏览器 指示允许一个页面 可否在 `<frame>`, `<iframe>`, `<embed>` 或者 `<object>` 中展现的标记。站点可以通过确保网站没有被嵌入到别人的站点里面，从而避免 clickjacking 攻击。
+> The X-Frame-Options HTTP 响应头是用来给浏览器 指示允许一个页面 可否在 `<frame>`, `<iframe>`, `<embed>` 或者 `<object>` 中展现的标记。站点可以通过确保网站没有被嵌入到别人的站点里面，从而避免 clickjacking 攻击。
 
 换一句话说，如果设置为 `deny`，不光在别人的网站 frame 嵌入时会无法加载，在同域名页面中同样会无法加载。另一方面，如果设置为`sameorigin`，那么页面就可以在同域名页面的`frame`中嵌套。
 
@@ -60,15 +61,10 @@ MDN对它的解释如下：
 ### X-Frame-Options：sameorigin
 
 如果主站和嵌入的第三方网页**在同一个域中**，可以把`add_header X-Frame-Options sameorigin`这一行，添加到nginx配置中:
+
 ```html
- server {
-  #listen       80;
-  listen 443 ssl; // 主站是https协议
-  server_name www.zzcyes.com;
-  add_header X-Frame-Options sameorigin;
-	// 省略其它配置
-  ...
-}
+server { #listen 80; listen 443 ssl; // 主站是https协议 server_name
+www.zzcyes.com; add_header X-Frame-Options sameorigin; // 省略其它配置 ... }
 ```
 
 ### X-Frame-Options：allow-from uri
@@ -115,5 +111,3 @@ _Invalid 'X-Frame-Options' header encountered when loading '[https://www.zzcyes.
 
 - [X-Frame-Options - HTTP | MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/X-Frame-Options)
 - [Content-Security-Policy - HTTP | MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy)
-
-    

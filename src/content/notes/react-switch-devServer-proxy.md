@@ -4,28 +4,29 @@ date: "2022-04-20 20:27:35"
 ---
 
 ## 背景需求
+
 在本地跑React项目时，调用的接口往往是跨域的，一般常用的是`webpack-dev-server`提供的`prxoy`代理功能。然而在每次切换代理环境后，都需要重新跑项目，对于开发人员来说太麻烦了。如果能够在切换代理环境后，不用重跑项目，岂不是提升了开发体验和减少了项目编译的时间呢？
 
 ● webpack.devServer.config.js
-```javascript
 
-'use strict';
-const fs = require('fs');
+```javascript
+"use strict";
+const fs = require("fs");
 // ...
-module.exports = function(proxy, allowedHost) {
-    return {
-        // ...
-        proxy: {
-          '/test': {
-              target: 'http://47.115.13.227:8001',
-              changeOrigin: true,
-          },
-          '/user': {
-              target: 'http://47.115.13.227:8002',
-              changeOrigin: true,
-          },
-        },
-    };
+module.exports = function (proxy, allowedHost) {
+  return {
+    // ...
+    proxy: {
+      "/test": {
+        target: "http://47.115.13.227:8001",
+        changeOrigin: true,
+      },
+      "/user": {
+        target: "http://47.115.13.227:8002",
+        changeOrigin: true,
+      },
+    },
+  };
 };
 ```
 
@@ -46,9 +47,7 @@ module.exports = function(proxy, allowedHost) {
 
 在查阅了webpack官网中[devServer.proxy](https://webpack.js.org/configuration/dev-server/#devserverproxy)的内容后，发现这个`devServer`是用了[http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)包去实现的，并且给出了它的[官方文档](https://github.com/chimurai/http-proxy-middleware#options)
 
-
 ![devs-server-proxy-01.png](https://www.zzcyes.com/images/devs-server-proxy-01.png)
-
 
 ### http-proxy-middleware
 
@@ -101,67 +100,73 @@ router: async function(req) {
 - `/test`,返回`8001 succesed get test word！`
 
 ```javascript
-const http = require('http');
-const server8001 = http.createServer(function(req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Content-type,Content-Length,Authorization,Accept,X-Requested-Width");
-    res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+const http = require("http");
+const server8001 = http.createServer(function (req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-type,Content-Length,Authorization,Accept,X-Requested-Width",
+  );
+  res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 
-    let proxyUrl = '';
+  let proxyUrl = "";
 
-    if (req.url == "/getRouterProxyUrl") {
-        if (Math.random() * 10 > 5) {
-            proxyUrl = 'http://47.115.13.227:8001';
-        } else {
-            proxyUrl = 'http://47.115.13.227:8002';
-        }
-        res.writeHead(200, {
-            'Content-type': 'text/plain;charset=UTF8',
-        });
-        res.end(proxyUrl);
-    } else if (req.url == "/test") {
-        res.writeHead(200, { 'Content-type': 'text/plain;charset=UTF8' });
-        res.end('8001 succesed get test word!');
+  if (req.url == "/getRouterProxyUrl") {
+    if (Math.random() * 10 > 5) {
+      proxyUrl = "http://47.115.13.227:8001";
     } else {
-        res.writeHead(200, { 'Content-type': 'text/plain;charset=UTF8' });
-        res.end(`8001 hello,your request url is ${req.url}`);
+      proxyUrl = "http://47.115.13.227:8002";
     }
-    console.debug(new Date(), `8001 req.url:${req.url}`);
-    console.debug(new Date(), `8001 proxyUrl:${proxyUrl}`);
+    res.writeHead(200, {
+      "Content-type": "text/plain;charset=UTF8",
+    });
+    res.end(proxyUrl);
+  } else if (req.url == "/test") {
+    res.writeHead(200, { "Content-type": "text/plain;charset=UTF8" });
+    res.end("8001 succesed get test word!");
+  } else {
+    res.writeHead(200, { "Content-type": "text/plain;charset=UTF8" });
+    res.end(`8001 hello,your request url is ${req.url}`);
+  }
+  console.debug(new Date(), `8001 req.url:${req.url}`);
+  console.debug(new Date(), `8001 proxyUrl:${proxyUrl}`);
 });
 
-server8001.listen('8001', function() {
-    console.log((new Date()) + 'Server is listening on port:', 8001);
-})
+server8001.listen("8001", function () {
+  console.log(new Date() + "Server is listening on port:", 8001);
+});
 ```
 
 ### 服务端口8002
+
 如下，端口为`8002`的node服务有以下功能：
 
 - `/test`返回`8002 succesed get test word!`
-  
+
 ```javascript
-const http = require('http');
+const http = require("http");
 
-const server8002 = http.createServer(function(req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Content-type,Content-Length,Authorization,Accept,X-Requested-Width");
-    res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+const server8002 = http.createServer(function (req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-type,Content-Length,Authorization,Accept,X-Requested-Width",
+  );
+  res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 
-    if (req.url == "/test") {
-        res.writeHead(200, { 'Content-type': 'text/plain;charset=UTF8' });
-        res.end('8002 succesed get test word!');
-    } else {
-        res.writeHead(200, { 'Content-type': 'text/plain;charset=UTF8' });
-        res.end(`8002 hello,your request url is ${req.url}`);
-    }
-    console.debug(new Date(), `8002 req.url:${req.url}`);
-
+  if (req.url == "/test") {
+    res.writeHead(200, { "Content-type": "text/plain;charset=UTF8" });
+    res.end("8002 succesed get test word!");
+  } else {
+    res.writeHead(200, { "Content-type": "text/plain;charset=UTF8" });
+    res.end(`8002 hello,your request url is ${req.url}`);
+  }
+  console.debug(new Date(), `8002 req.url:${req.url}`);
 });
 
-server8002.listen('8002', function() {
-    console.log((new Date()) + 'Server is listening on port:', 8002);
-})
+server8002.listen("8002", function () {
+  console.log(new Date() + "Server is listening on port:", 8002);
+});
 ```
 
 ### 配置proxy
@@ -169,59 +174,59 @@ server8002.listen('8002', function() {
 webpack.devServer.config.js文件如下，通过`getFecth`去请求动态的代理地址，`router`中拿到`getFecth`中请求到的代理地址再返回
 
 ```javascript
-'use strict';
-const fs = require('fs');
-const http = require('http');
+"use strict";
+const fs = require("fs");
+const http = require("http");
 // ...
 const getFetch = () => {
-    return new Promise((resolve, reject) => {
-        http.get('http://47.115.13.227:8001/getRouterProxyUrl', res => {
-            let todo = '';
-            res.on('data', chunk => {
-                todo += chunk;
-            });
-            res.on('end', () => {
-                resolve(todo);
-            });
-            res.on('error', (error) => {
-                reject(error);
-            });
-        });
+  return new Promise((resolve, reject) => {
+    http.get("http://47.115.13.227:8001/getRouterProxyUrl", (res) => {
+      let todo = "";
+      res.on("data", (chunk) => {
+        todo += chunk;
+      });
+      res.on("end", () => {
+        resolve(todo);
+      });
+      res.on("error", (error) => {
+        reject(error);
+      });
     });
+  });
 };
 
-module.exports = function(proxy, allowedHost) {
-    return {
-        // ...
-       proxy: {
-          '/test': {
-              target: 'http://localhost:3000',
-              changeOrigin: true,
-              router: async function() {
-                  const url = await getFetch();
-                  return url;
-              },
-          },
-      }
-    };
+module.exports = function (proxy, allowedHost) {
+  return {
+    // ...
+    proxy: {
+      "/test": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        router: async function () {
+          const url = await getFetch();
+          return url;
+        },
+      },
+    },
+  };
 };
 ```
 
 ### 前端请求
 
 ```javascript
-fetch('/test')
-  .then(response => {
+fetch("/test")
+  .then((response) => {
     if (!response.ok) {
-      throw 'Error';
+      throw "Error";
     }
     return response.text();
   })
-  .then(res => console.debug(res))
-  .catch(err => console.error(err));
+  .then((res) => console.debug(res))
+  .catch((err) => console.error(err));
 ```
 
-#### 请求报错500 Internal Server Error 
+#### 请求报错500 Internal Server Error
 
 前端请求后，发现报了500 Internal Server Error 的错误
 
@@ -309,6 +314,7 @@ router: async function() {
 正当想放弃的时候，刚刚中间件文档提到的router一个用法`async doSomeIO`，要不试试`I/O`操作，看下在router里边调用文件流能否成功。
 
 - test.env.json
+
 ```json
 {
   "protocol": "http:",
@@ -378,7 +384,7 @@ const getEvnFilesJSON = (context) =>{
   // ...可根据req,url,methods来获取不同的代理环境
   const envStr = fs.readFileSync('./test.env.json, 'utf-8');
   const { protocol, host, port } = JSON.parse(envStr);
-  return { protocol, host, port } 
+  return { protocol, host, port }
 };
 
 module.exports = function(proxy, allowedHost) {
@@ -394,6 +400,7 @@ module.exports = function(proxy, allowedHost) {
     };
 };
 ```
+
 ## 总结
 
 1. webpack的web-dev-server是基于http-proxy-middleware实现的
@@ -409,5 +416,3 @@ module.exports = function(proxy, allowedHost) {
 - [http-proxy-middleware options](https://github.com/chimurai/http-proxy-middleware#options)
 
 - [option.router with callback in arguments #153](https://github.com/chimurai/http-proxy-middleware/issues/153)
-
-    

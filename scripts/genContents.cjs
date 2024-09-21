@@ -53,7 +53,7 @@ const genContents = (basePath, exportPath) => {
 console.time("构建文章目录");
 
 console.debug(
-  `文章：${genContents(baseContentPath, exportContentPaths).length}篇`
+  `文章：${genContents(baseContentPath, exportContentPaths).length}篇`,
 );
 
 console.timeEnd("构建文章目录");

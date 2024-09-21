@@ -5,7 +5,6 @@ import { getAssetPath } from "../common/utils";
 const bgLight = getAssetPath("/assets/images/bg-light.svg");
 const bgDark = getAssetPath("/assets/images/bg-dark.svg");
 
-
 interface Props {
   title: string;
 }
@@ -14,16 +13,23 @@ const { title } = Astro.props;
 ---
 
 <Layout title={title}>
-  <div class="page-container" style={`--bg-light: url(${bgLight});--bg-dark: url(${bgDark});`}>
-    <Nav />
+  <div
+    class="page-container"
+    style={`--bg-light: url(${bgLight});--bg-dark: url(${bgDark});`}
+  >
+    <div class="nav-pc hidden">
+      <Nav />
+    </div>
     <div class="center-container">
+      <div class="nav-mobile hidden">
+        <Nav />
+      </div>
       <slot />
     </div>
   </div>
 </Layout>
 
 <style>
-
   .page-container {
     display: flex;
     flex-direction: column;
@@ -48,5 +54,22 @@ const { title } = Astro.props;
     height: auto;
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .nav-pc {
+    display: block;
+  }
+  .nav-mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .nav-pc {
+      display: none;
+    }
+    .nav-mobile {
+      display: block;
+    }
   }
 </style>

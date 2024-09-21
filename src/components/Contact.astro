@@ -1,91 +1,154 @@
 ---
 import { getBaseUrl } from "../common/utils";
+// import ArticleIcon from "../common/assets/images/icon-article.png";
+// import GitHubIcon from "../common/assets/images/icon-github.png";
+// import ProjectsIcon from "../common/assets/images/icon-projects.png";
+// import ResumeIcon from "../common/assets/images/icon-resume.png";
+// import EmailIcon from "../common/assets/images/icon-email.png";
+// import GuitarIcon from "../common/assets/images/icon-guitar.png";
+// import RainIcon from "../common/assets/images/icon-rain.png";
+// import KobeIcon from "../common/assets/images/icon-kobe.png"
+// import LuckIcon from "../common/assets/images/icon-luck.png"
 
-const baseUrl = getBaseUrl()
-
+const baseUrl = getBaseUrl();
 
 const links = [
   {
     name: "博客",
     url: "https://www.zzcyes.com/blogs/",
     icon: "icon-article.png",
+    // iconNode: ArticleIcon,
     className: "icon-article",
   },
   {
     name: "GitHub",
     url: "https://github.com/zzcyes",
     icon: "icon-github.png",
+    // iconNode: GitHubIcon,
     className: "icon-github",
   },
   {
     name: "Projects",
     url: "https://www.zzcyes.com/projects/webfolio",
     icon: "icon-projects.png",
+    // iconNode: ProjectsIcon,
     className: "icon-projects",
   },
   {
     name: "简历",
     url: "https://www.zzcyes.com/resume.html",
     icon: "icon-resume.png",
+    // iconNode: ResumeIcon,
     className: "icon-resume",
   },
   {
     name: "邮箱",
     url: "mailto:zhongzichen1997@163.com",
     icon: "icon-email.png",
+    // iconNode: EmailIcon,
     className: "icon-email",
   },
   {
     name: "Guitar",
     url: "https://music.163.com/#/user/fans?id=482295750",
     icon: "icon-guitar.png",
+    // iconNode: GuitarIcon,
     className: "icon-guitar",
   },
   {
     name: "Rain",
     url: "https://www.zzcyes.com/rain.html",
     icon: "icon-rain.png",
+    // iconNode: RainIcon,
     className: "icon-rain",
   },
   {
     name: "Mambma Never Out",
     url: "https://www.zzcyes.com/kobe.html",
     icon: "icon-kobe.png",
+    // iconNode:KobeIcon,
     className: "icon-kobe",
   },
   {
     name: "Luck",
     url: "https://www.zzcyes.com/luck.html",
     icon: "icon-luck.png",
+    // iconNode: LuckIcon,
     className: "icon-luck",
   },
 ];
 ---
 
-<section class="contact">
-  <div id="contact-panel">
+<div class="contact">
+  <div class="contact-panel">
     {
       links.map(({ name, url, className, icon }) => (
         <a
-          class={`social-share-element ${className}`}
+          class="social-share-element"
+          target="_blank"
           href={url}
           title={name}
-          target="_blank"
-          style={`--icon: url(${baseUrl}/assets/images/${icon})`}
-        />
+          data-name={name}
+          rel="noopener noreferrer"
+        >
+          <img
+            data-name={name}
+            data-src={`${baseUrl}/assets/images/${icon}`}
+            alt={name}
+            loading="lazy"
+            class="social-icon hidden"
+          />
+          <div class="fallbcack-icon" data-name={name} />
+        </a>
       ))
     }
   </div>
-</section>
+</div>
+
+<script>
+  window.addEventListener("load", () => {
+    const currPanels = document.querySelectorAll(".contact-panel");
+    currPanels.forEach((panel) => {
+      const lazyImages = panel.querySelectorAll("img[data-src]");
+      loadLazyImages(lazyImages, panel);
+    });
+    function loadLazyImages(lazyImages, panel) {
+      console.debug(lazyImages, panel);
+      const callback = (entries) => {
+        entries.forEach((entry) => {
+          console.debug("entry", entry);
+          if (entry.isIntersecting) {
+            const fallbackIcons = panel.querySelectorAll(".fallbcack-icon");
+            if (fallbackIcons.length > 0) {
+              fallbackIcons.forEach((fallbackIcon) => {
+                fallbackIcon.classList.add("hidden");
+              });
+            }
+            const image = entry.target;
+            image.src = image.getAttribute("data-src");
+            console.debug("image", image);
+            image.classList.remove("error");
+            image.classList.remove("hidden");
+            observer.unobserve(image);
+          }
+        });
+      };
+      const observer = new IntersectionObserver(callback);
+      lazyImages.forEach((img) => {
+        observer.observe(img);
+      });
+    }
+  });
+</script>
 
 <style>
-  section.contact {
+  .contact {
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  #contact-panel {
+  .contact-panel {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,37 +162,45 @@ const links = [
     }
 
     & > .social-share-element {
-      display: inline-block;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 45px;
       height: 45px;
       border-bottom: none;
       border-radius: 50%;
       background-color: var(--color-text-secondary);
-      background-image: var(--icon);
       background-size: 55%;
       background-position: center;
       background-repeat: no-repeat;
       transition: 0.5s;
-
-      /* &.icon-kobe {
-      background-size: 60%;
     }
 
-    &.icon-resume {
-      background-size: 60%;
+    .social-icon {
+      width: 20px;
+      height: 20px;
+    }
+    .hidden {
+      opacity: 0;
+      /* visibility: hidden; */
     }
 
-    &.icon-article {
-      background-size: 45%;
+    .fallbcack-icon {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 45px;
+      height: 45px;
+      background-color: var(--color-text);
+      border-radius: 50%;
+      z-index: auto;
+      transform: translateX(-50%);
     }
 
-    &.icon-guitar {
-      background-size: 50%;
-    }
-
-    &.icon-rain {
-      background-size: 40%;
-    } */
+    img {
+      position: relative;
+      display: inline-block;
     }
   }
 </style>

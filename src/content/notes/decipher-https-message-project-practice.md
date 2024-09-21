@@ -28,9 +28,7 @@ wSrc2z7sj%2BnlXfsQZXMXyF6oPlYLbVXWO%2BfZXgod4qfQvuHbcMJpjIGPE0H2pdXUTZ4TUcA93Yzi
 为了解密更清晰，可以列出大概的流程：
 
 1. 确定加密协议：既然要解密，那么我们首先得确定加密协议
-   
 2. 破解密钥：确定了加密协议后，此时我们就要破解密钥了
-   
 3. 解密报文：有了密钥后，我们根据加密的规则，对报文解密，最终就能得到报文的明文了
 
 其实这跟解神庙（为了救公主，林克的智力蹭蹭上涨）是一样的：
@@ -51,7 +49,7 @@ wSrc2z7sj%2BnlXfsQZXMXyF6oPlYLbVXWO%2BfZXgod4qfQvuHbcMJpjIGPE0H2pdXUTZ4TUcA93Yzi
 
 ```html
 <noscript>
- <strong>看个什么玩意儿?</strong>
+  <strong>看个什么玩意儿?</strong>
 </noscript>
 ```
 
@@ -70,22 +68,21 @@ wSrc2z7sj%2BnlXfsQZXMXyF6oPlYLbVXWO%2BfZXgod4qfQvuHbcMJpjIGPE0H2pdXUTZ4TUcA93Yzi
 我们聚焦到`then`里边的函数，当成功返回接口数据后，有以下两个操作：`JSON.parse(a(decodeURIComponent(t.data)))`和`JSON.parse(a(decodeURIComponent(t.items)))`，可以看出，这里对`t.data`和`t.items`都进行了相同的转化。
 
 ```js
-"jx" !== g && "pt" !== g || O.dispatch("getByItems", {
+("jx" !== g && "pt" !== g) ||
+  O.dispatch("getByItems", {
     orderid: v,
     mode: g,
-    language: O.state.currlanguage
-}).then((function(t) {
+    language: O.state.currlanguage,
+  }).then(function (t) {
     if (0 !== t.errCode)
-        return d["a"].error(t.errMsg).then((function() {
-            s.push("/")
-        }
-        ));
-    t.data = JSON.parse(a(decodeURIComponent(t.data))),
-    O.state.items = JSON.parse(a(decodeURIComponent(t.items))),
-    e.value = t.data,
-    m.value = !1
-}
-))
+      return d["a"].error(t.errMsg).then(function () {
+        s.push("/");
+      });
+    (t.data = JSON.parse(a(decodeURIComponent(t.data)))),
+      (O.state.items = JSON.parse(a(decodeURIComponent(t.items)))),
+      (e.value = t.data),
+      (m.value = !1);
+  });
 ```
 
 `JSON.parse`和`decodeURIComponent`这两个都是js自带的两个函数，我们需要把重心放在`a`这个被混淆的函数上，那么问题来了，我们怎么查看这个`a`函数呢，全局搜索吗？肯定不是啦，这时候就要用到谷歌浏览器自带的`Overrides`调试功能了。
@@ -119,12 +116,12 @@ O.state.items = JSON.parse(a(decodeURIComponent(t.items))),
 
 ```js
 function a(e) {
-    var t = Ot.a.enc.Utf8.parse(st)
-      , c = Ot.a.AES.decrypt(e, t, {
-        mode: Ot.a.mode.ECB,
-        padding: Ot.a.pad.Pkcs7
+  var t = Ot.a.enc.Utf8.parse(st),
+    c = Ot.a.AES.decrypt(e, t, {
+      mode: Ot.a.mode.ECB,
+      padding: Ot.a.pad.Pkcs7,
     });
-    return Ot.a.enc.Utf8.stringify(c).toString()
+  return Ot.a.enc.Utf8.stringify(c).toString();
 }
 ```
 
@@ -141,13 +138,13 @@ function a(e) {
 再聚焦到刚才打断点的`a`函数的内容
 
 ```js
- function a(e) {
-  var t = Ot.a.enc.Utf8.parse(st) 
-    , c = Ot.a.AES.decrypt(e, t, { 
+function a(e) {
+  var t = Ot.a.enc.Utf8.parse(st),
+    c = Ot.a.AES.decrypt(e, t, {
       mode: Ot.a.mode.ECB,
-      padding: Ot.a.pad.Pkcs7
-  });
-  return Ot.a.enc.Utf8.stringify(c).toString()
+      padding: Ot.a.pad.Pkcs7,
+    });
+  return Ot.a.enc.Utf8.stringify(c).toString();
 }
 ```
 
@@ -157,22 +154,23 @@ function a(e) {
 
 ![decipher-https-message-15.png](https://www.zzcyes.com/images/decipher-https-message-15.png)
 
-
 我们先看到`Ot.a`，这是一个加密库包，加上该加密算法为`AES加密算法`，我们很容易联想到前端常用的一个加密库`crypto-js.js`，既然知道了前端加解密用的是`crypto-js.js`，我们接下来只要用这个库包去验证即可。
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>crypto-js</title>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-</head>
-<body>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"
+    ></script>
+  </head>
+  <body>
     <script type="text/javascript">
-        console.log('CryptoJS', CryptoJS);
+      console.log("CryptoJS", CryptoJS);
     </script>
-</body>
-
+  </body>
 </html>
 ```
 
@@ -187,12 +185,12 @@ function a(e) {
 ```js
 // 混淆函数
 function a(e) {
-  var t = Ot.a.enc.Utf8.parse(st) 
-    , c = Ot.a.AES.decrypt(e, t, { 
+  var t = Ot.a.enc.Utf8.parse(st),
+    c = Ot.a.AES.decrypt(e, t, {
       mode: Ot.a.mode.ECB,
-      padding: Ot.a.pad.Pkcs7
-  });
-  return Ot.a.enc.Utf8.stringify(c).toString()
+      padding: Ot.a.pad.Pkcs7,
+    });
+  return Ot.a.enc.Utf8.stringify(c).toString();
 }
 ```
 
@@ -201,12 +199,12 @@ function a(e) {
 ```js
 // 优化
 function decrypt(encryptText) {
-  var passphrase = CryptoJS.enc.Utf8.parse(passphraseText) 
-    , decryptText = CryptoJS.AES.decrypt(encryptText, passphrase, { 
+  var passphrase = CryptoJS.enc.Utf8.parse(passphraseText),
+    decryptText = CryptoJS.AES.decrypt(encryptText, passphrase, {
       mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7
-  });
-  return CryptoJS.enc.Utf8.stringify(decryptText).toString()
+      padding: CryptoJS.pad.Pkcs7,
+    });
+  return CryptoJS.enc.Utf8.stringify(decryptText).toString();
 }
 ```
 
@@ -225,13 +223,13 @@ var utf8 = CryptoJS.enc.Utf8.stringify(words);
 通过查找，我们可以看到`Object(ft["MD5"])("by ilil").toString().substring(0, 16)`的值赋给了`st`
 
 ```js
-st = Object(ft["MD5"])("by ilil").toString().substring(0, 16)
+st = Object(ft["MD5"])("by ilil").toString().substring(0, 16);
 ```
 
 我们从这段函数表达式中提取关键的信息`Object(ft["MD5"])("by ilil")`，可以推测出这里是用了`MD5`对`by ilil`进行了加密，然后把得到的值字符串化后截取了0~16位。此时我们如果继续在`app.567b1880.js`文件中搜索`ft`函数会得到如下内容
 
 ```js
-ft = c("3452")
+ft = c("3452");
 ```
 
 而`c(3452)`又在`chunk-vendors.d9052322.js`文件中，之前也提到过，`chunk-vendors.d9052322.js`是个第三方依赖的库包
@@ -250,14 +248,14 @@ Object(CryptoJS.MD5("by ilil")).toString().substring(0, 16); // a1b15f44ab22f260
 
 我们有了密钥`a1b15f44ab22f260`，再继续看到之前我们优化过的混淆函数
 
-```js 
+```js
 function decrypt(encryptText) {
-  var passphrase = CryptoJS.enc.Utf8.parse(passphraseText) 
-    , decryptText = CryptoJS.AES.decrypt(encryptText, passphrase, { 
+  var passphrase = CryptoJS.enc.Utf8.parse(passphraseText),
+    decryptText = CryptoJS.AES.decrypt(encryptText, passphrase, {
       mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7
-  });
-  return CryptoJS.enc.Utf8.stringify(decryptText).toString()
+      padding: CryptoJS.pad.Pkcs7,
+    });
+  return CryptoJS.enc.Utf8.stringify(decryptText).toString();
 }
 ```
 
@@ -265,8 +263,8 @@ function decrypt(encryptText) {
 
 ![decipher-https-message-20.png](https://www.zzcyes.com/images/decipher-https-message-20.png)
 
-```json 
-'{"HartCheck":false,"HartCombo":120,"StaminaCheck":false,"StaminaCombo":3000,"RupeeCheck":false,"RupeeBox":999999,"MamoCheck":false,"MamoBox":999999,"KorokCheck":false,"KorokBox":900,"RebornCheck":false,"RebornBox":999,"MotoCheck":false,"MotoDisabled":false,"MasterOpenCheck":false,"MasterOpenDisabled":false,"StockCheck":false,"StockDisabled":false,"RelicCheck":false,"RelicDisabled":false,"BossCheck":false,"BossDisabled":false,"MapCheck":false,"MapDisabled":false,"TransferShowCheck":false,"TransferShowDisabled":false,"TransferCheck":false,"TransferDisabled":false,"Item":{"weapons":[],"bows":[],"arrow":[],"shields":[],"clothes":[],"materials":[],"food":[],"other":[],"horse":[]}}'
+```json
+"{\"HartCheck\":false,\"HartCombo\":120,\"StaminaCheck\":false,\"StaminaCombo\":3000,\"RupeeCheck\":false,\"RupeeBox\":999999,\"MamoCheck\":false,\"MamoBox\":999999,\"KorokCheck\":false,\"KorokBox\":900,\"RebornCheck\":false,\"RebornBox\":999,\"MotoCheck\":false,\"MotoDisabled\":false,\"MasterOpenCheck\":false,\"MasterOpenDisabled\":false,\"StockCheck\":false,\"StockDisabled\":false,\"RelicCheck\":false,\"RelicDisabled\":false,\"BossCheck\":false,\"BossDisabled\":false,\"MapCheck\":false,\"MapDisabled\":false,\"TransferShowCheck\":false,\"TransferShowDisabled\":false,\"TransferCheck\":false,\"TransferDisabled\":false,\"Item\":{\"weapons\":[],\"bows\":[],\"arrow\":[],\"shields\":[],\"clothes\":[],\"materials\":[],\"food\":[],\"other\":[],\"horse\":[]}}"
 ```
 
 ## 文章
@@ -278,4 +276,3 @@ function decrypt(encryptText) {
 - [分组对称加密模式:ECB/CBC/CFB/OFB缺CTR - Ady Lee - 博客园](https://www.cnblogs.com/adylee/archive/2007/09/14/893438.html)
 
 - [塞尔达传说：荒野之息](https://botw.ilil.me/pt/0)
-    

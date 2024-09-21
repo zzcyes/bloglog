@@ -7,17 +7,16 @@ date: "2022-05-27 20:05:02"
 
 开发环境、npm包版本信息：
 
-| 名称 | 版本 |
-| ---- | ---- |
-| yarn | 1.22.17 |
-| redux | 5.0.0-alpha.0 |
-| react | 18.1.0 |
-| node | v14.17.0 |
-| OS | Microsoft Windows [版本 10.0.19044.1645] |
+| 名称          | 版本                                       |
+| ------------- | ------------------------------------------ |
+| yarn          | 1.22.17                                    |
+| redux         | 5.0.0-alpha.0                              |
+| react         | 18.1.0                                     |
+| node          | v14.17.0                                   |
+| OS            | Microsoft Windows [版本 10.0.19044.1645]   |
 | Google Chrome | 版本 103.0.5057.3（正式版本）dev （64 位） |
 
-
-Redux  插件可以与 React 或者其他 view library 一起使用。并且，Redux 提供了 ES、CommonJS 等不同模块规范的依赖包。因此，我们除了在 React 项目实例下调试 Redux，还可以在 Node 环境下调试。
+Redux 插件可以与 React 或者其他 view library 一起使用。并且，Redux 提供了 ES、CommonJS 等不同模块规范的依赖包。因此，我们除了在 React 项目实例下调试 Redux，还可以在 Node 环境下调试。
 
 ## React 创建项目
 
@@ -28,22 +27,22 @@ Redux  插件可以与 React 或者其他 view library 一起使用。并且，R
 npx create-react-app <project name> --template typescript
 
 // yarn
-yarn create react-app <project name> --template typescript 
+yarn create react-app <project name> --template typescript
 
 // or
-npm install -g create-react-app 
-create-react-app <project name> --template typescript 
+npm install -g create-react-app
+create-react-app <project name> --template typescript
 ```
 
-Tips：如果不加 `--template`，只是 `--typescript` ，项目只是支持 ts ，本身模板不会升级到 ts。 
+Tips：如果不加 `--template`，只是 `--typescript` ，项目只是支持 ts ，本身模板不会升级到 ts。
 
 ### run eject scripts
 
 运行 `eject scripts`命令，可以将 webpack 等配置或依赖项放开（不可逆，若不需要自定义配置则跳过），这里只是为了方便后续自定义配置。
 
 ```js
-yarn eject 
-// or 
+yarn eject
+// or
 // npm run eject
 ```
 
@@ -61,10 +60,10 @@ npm install redux
 
 ## 初始化 Node 环境
 
-Node 环境下调试下就比较简洁了，先初始化 npm 
+Node 环境下调试下就比较简洁了，先初始化 npm
 
 ```
-npm init 
+npm init
 ```
 
 再安装 Redux 包
@@ -89,19 +88,19 @@ git clone --depth 1 --branch master git@github.com:reduxjs/redux.git
 
 ```js
 // Yarn
-yarn install 
-yarn build 
+yarn install
+yarn build
 
-// NPM 
-npm install 
-npm run build 
+// NPM
+npm install
+npm run build
 ```
 
 build 之后可以看到会打包出不同版本的 Redux 文件。
 
 ![redux-debugger-image-20220523144704410](https://www.zzcyes.com/images/redux-debugger-20220523144704410.png)
 
-打开  `rollup.config.js` 文件，可以看到不同版本的构建信息
+打开 `rollup.config.js` 文件，可以看到不同版本的构建信息
 
 ![redux-debugger-image-20220523145036749](https://www.zzcyes.com/images/redux-debugger-20220523145036749.png)
 
@@ -136,7 +135,7 @@ build 之后可以看到会打包出不同版本的 Redux 文件。
 +   output: { file: 'es/redux.js', format: 'es', indent: false, sourcemap: true, },
     external,
     plugins: [
-     	// ... 
+     	// ...
     ]
 },
 ```
@@ -154,11 +153,11 @@ npm link
 
 ![redux-debugger-image-20220524110458367](https://www.zzcyes.com/images/redux-debugger-20220524110458367.png)
 
-根据 [npm Docs (Version 6.x)](https://docs.npmjs.com/cli/v6/commands/npm-link/) 文档描述， `npm link` 成功的话，会把库包链接到 `{prefix}/lib/node_modules/<package>`  
+根据 [npm Docs (Version 6.x)](https://docs.npmjs.com/cli/v6/commands/npm-link/) 文档描述， `npm link` 成功的话，会把库包链接到 `{prefix}/lib/node_modules/<package>`
 
 ![redux-debugger-image-20220524111908683](https://www.zzcyes.com/images/redux-debugger-20220524111908683.png)
 
-为了验证 `npm link` 是否成功，我们先通过 `npm config get prefix` 命令查看 `prefix` 值，在这里是`C:\Users\admin\AppData\Roaming\npm` 
+为了验证 `npm link` 是否成功，我们先通过 `npm config get prefix` 命令查看 `prefix` 值，在这里是`C:\Users\admin\AppData\Roaming\npm`
 
 ![redux-debugger-image-20220524110936982](https://www.zzcyes.com/images/redux-debugger-20220524110936982.png)
 
@@ -178,7 +177,7 @@ Tips：需要注意的是，这里链接到全局的 redux 模块的命名，并
 
 ```js
 // cd <React Project Name>
-npm link redux 
+npm link redux
 ```
 
 ![redux-debugger-image-20220524113638619](https://www.zzcyes.com/images/redux-debugger-20220524113638619.png)
@@ -196,4 +195,3 @@ D:\workspace\source-code-debugger\react-redux-debugger\node_modules\redux -> C:\
 - [《package.json 中 你还不清楚的 browser，module，main 字段优先级》](https://github.com/SunshowerC/blog/issues/8)）
 
 - [API Reference | Redux](https://redux.js.org/api/api-reference)
-    

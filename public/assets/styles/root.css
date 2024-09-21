@@ -1,19 +1,19 @@
 :root {
-    --color-background: white;
-    --color-text: #333333;
-    --color-text-secondary: #666666;
-    --color-border: rgba(0, 0, 0, 0.1);
-    --color-card-background: #ffffff;
-    --color-card-shadow: rgba(0, 0, 0, 0.1);
-    --color-hover: rgba(0, 0, 0, 0.05);
-    --color-scrollbar-track: #ffffff;
-    --color-scrollbar-thumb: #c1c1c1;
-    --color-scrollbar-thumb-hover: #a8a8a8;
-    --color-accent: #4e5dff;
-    --theme-code-tabs: #22272f;
-    --theme-code-bg: #282c34;
+  --color-background: white;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-card-background: #ffffff;
+  --color-card-shadow: rgba(0, 0, 0, 0.1);
+  --color-hover: rgba(0, 0, 0, 0.05);
+  --color-scrollbar-track: #ffffff;
+  --color-scrollbar-thumb: #c1c1c1;
+  --color-scrollbar-thumb-hover: #a8a8a8;
+  --color-accent: #4e5dff;
+  --theme-code-tabs: #22272f;
+  --theme-code-bg: #282c34;
 
-    /* --color-background-reverse: #221e25;
+  /* --color-background-reverse: #221e25;
 --color-text-reverse: #e0e0e0;
 --color-text-secondary-reverse: #b0b0b0;
 --color-border-reverse: rgba(255, 255, 255, 0.1);
@@ -40,17 +40,17 @@
 
 */
 html[data-theme="dark"] {
-    --color-background: #221e25;
-    --color-text: #e0e0e0;
-    --color-text-secondary: #b0b0b0;
-    --color-border: rgba(255, 255, 255, 0.1);
-    --color-card-background: #1e1e1e;
-    --color-card-shadow: rgba(0, 0, 0, 0.1);
-    --color-hover: rgba(255, 255, 255, 0.1);
-    --color-scrollbar-track: #1e1e1e;
-    --color-scrollbar-thumb: #555;
-    --color-scrollbar-thumb-hover: #777;
-    --color-accent: #fca369;
-    --theme-code-tabs: #22272f;
-    --theme-code-bg: #282c34;
+  --color-background: #221e25;
+  --color-text: #e0e0e0;
+  --color-text-secondary: #b0b0b0;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-card-background: #1e1e1e;
+  --color-card-shadow: rgba(0, 0, 0, 0.1);
+  --color-hover: rgba(255, 255, 255, 0.1);
+  --color-scrollbar-track: #1e1e1e;
+  --color-scrollbar-thumb: #555;
+  --color-scrollbar-thumb-hover: #777;
+  --color-accent: #fca369;
+  --theme-code-tabs: #22272f;
+  --theme-code-bg: #282c34;
 }

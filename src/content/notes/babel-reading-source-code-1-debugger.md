@@ -7,14 +7,14 @@ date: "2022-12-19 22:54:44"
 
 开发环境、npm包版本信息：
 
-| 名称 | 版本 |
-| --- | --- |
-| babel | v7.20.6 |
-| node | v16.16.0 |
-| npm | v8.11.0 |
-| OS | macOS 13.1 (22C65) |
+| 名称  | 版本               |
+| ----- | ------------------ |
+| babel | v7.20.6            |
+| node  | v16.16.0           |
+| npm   | v8.11.0            |
+| OS    | macOS 13.1 (22C65) |
 
-### Fork Babel 
+### Fork Babel
 
 首先，打开 babel 在 Github 上的链接 [https://github.com/babel/babel](https://github.com/babel/babel)，把 babel 项目 Fork 到自己的仓库
 
@@ -24,11 +24,9 @@ date: "2022-12-19 22:54:44"
 
 ![babel-source-debugger-002.png](https://www.zzcyes.com/images/babel-source-debugger-002.png)
 
-
-Fork 成功之后，把 forked 的项目 clone 到本地环境 
+Fork 成功之后，把 forked 的项目 clone 到本地环境
 
 ![babel-source-debugger-003.png](https://www.zzcyes.com/images/babel-source-debugger-003.png)
-
 
 ```powershell
 git clone https://github.com/zzcyes/babel-forked-v7.20.6.git
@@ -42,23 +40,23 @@ clone 项目成功之后，先进入到 CONTRIBUTING.md 文档中，根据提示
 
 ```powershell
 # Then, run:
-make bootstrap 
+make bootstrap
 # Then you can either run:
-make build 
+make build
 # to build Babel once or:
-make watch 
+make watch
 # to have Babel build itself and incrementally build files on change.
 # You can access the built files for individual packages from packages/<package-name>/lib.
 # If you wish to build a copy of Babel for distribution, then run:
 make build-dist
 ```
 
-首先进行一次编译，把 packages 下的 babel 分别构建到自己目录下的 lib 中  
+首先进行一次编译，把 packages 下的 babel 分别构建到自己目录下的 lib 中
 
 ```powershell
 make bootstrap
 # or
-make build 
+make build
 ```
 
 ![babel-source-debugger-004.png](https://www.zzcyes.com/images/babel-source-debugger-004.png)
@@ -73,7 +71,7 @@ babel 提供了以下命令去切换构建出来的包的规范
 
 ```powershell
 # ECMAScript modules
-make use-esm 
+make use-esm
 
 # CommonJS
 make use-cjs
@@ -120,18 +118,17 @@ npm link
  npm prefix --location=global
 ```
 
-在本机上拿到的全局安装路径为 /Users/zhongzichen/.nvm/versions/node/v16.16.0 
+在本机上拿到的全局安装路径为 /Users/zhongzichen/.nvm/versions/node/v16.16.0
 
 ![babel-source-debugger-010.png](https://www.zzcyes.com/images/babel-source-debugger-010.png)
 
-
-拿到路径后，接着进入到 node_modules 下，可以看到刚刚 link 的 babel-generator 包出现了，只不过目录结构是 @babel/generator，这是因为 npm link 默认是根据 package.json 的 name 名字来链接的。 
+拿到路径后，接着进入到 node_modules 下，可以看到刚刚 link 的 babel-generator 包出现了，只不过目录结构是 @babel/generator，这是因为 npm link 默认是根据 package.json 的 name 名字来链接的。
 
 ![babel-source-debugger-011.png](https://www.zzcyes.com/images/babel-source-debugger-011.png)
 
-### 引用全局 babel 
+### 引用全局 babel
 
-在本地调试 babel 的项目路径下，输入 npm link @babel/generator 可以把当前项目的 @babel/generator  包的引用指向 npm 的全局下。
+在本地调试 babel 的项目路径下，输入 npm link @babel/generator 可以把当前项目的 @babel/generator 包的引用指向 npm 的全局下。
 在本地有个 babel-particle 的项目，在 src/babel-generator/index.js 下，写了一段代码
 
 ![babel-source-debugger-012.png](https://www.zzcyes.com/images/babel-source-debugger-012.png)
@@ -152,11 +149,11 @@ console.log('code is:', code);
 
 ![babel-source-debugger-013.png](https://www.zzcyes.com/images/babel-source-debugger-013.png)
 
-为了验证项目中引用的  @babel/generator  是否成功链接到全局目录下，可以通过以下两种方法检验：
+为了验证项目中引用的 @babel/generator 是否成功链接到全局目录下，可以通过以下两种方法检验：
 
 - package-lock.json
 
-通过查看，package-lock.json, 会发现 "node_modules/@babel/core/node_modules/@babel/generator" 下多了 resolved 属性，对应的值恰为刚刚 link 到全局目录下 @babel/generator  的真实链接路径  "file:../babel-forked-v7.20.6/packages/babel-generator"
+通过查看，package-lock.json, 会发现 "node_modules/@babel/core/node_modules/@babel/generator" 下多了 resolved 属性，对应的值恰为刚刚 link 到全局目录下 @babel/generator 的真实链接路径 "file:../babel-forked-v7.20.6/packages/babel-generator"
 
 ![babel-source-debugger-014.png](https://www.zzcyes.com/images/babel-source-debugger-014.png)
 
@@ -171,6 +168,6 @@ console.log('code is:', code);
 
 ![babel-source-debugger-016.png](https://www.zzcyes.com/images/babel-source-debugger-016.png)
 
-接着，输入 node index.js 命令,运行 babel-practice/src/babel-generator 目录下的 index.js 文件，会看到控制台中，输出了刚刚我们在全局模块包中打印的日志，这意味着当前项目已经成功链接到 npm 全局模块中了。 
+接着，输入 node index.js 命令,运行 babel-practice/src/babel-generator 目录下的 index.js 文件，会看到控制台中，输出了刚刚我们在全局模块包中打印的日志，这意味着当前项目已经成功链接到 npm 全局模块中了。
 
 ![babel-source-debugger-017.png](https://www.zzcyes.com/images/babel-source-debugger-017.png)

@@ -1,7 +1,7 @@
 ---
 import ToggleTheme from "./ToggleTheme.astro";
 import Avatar from "./Avatar.astro";
-import { getAssetPath ,getBaseUrl } from "../common/utils";
+import { getAssetPath, getBaseUrl } from "../common/utils";
 const baseUrl = getBaseUrl();
 
 const navLinks = [
@@ -33,19 +33,21 @@ const navLinks = [
       <div class="logo-text-sub">Talk is cheap, show me the code</div>
     </div>
   </div>
-  <div class="nav-links-container">
-    {
-      navLinks.map((link) => (
-        <a
-          href={link.href}
-          class="nav-links"
-          title={link.text}
-          target={link.target ? link.target : undefined}
-        >
-          {link.text}
-        </a>
-      ))
-    }
+  <div class="nav-extra-container">
+    <div class="nav-links-block">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="nav-links"
+            title={link.text}
+            target={link.target ? link.target : undefined}
+          >
+            {link.text}
+          </a>
+        ))
+      }
+    </div>
     <span class="margin-left-auto">
       <ToggleTheme />
     </span>
@@ -65,6 +67,7 @@ const navLinks = [
 
     @media screen and (max-width: 900px) {
       flex-direction: column;
+      padding: 0 20px;
     }
   }
 
@@ -108,25 +111,46 @@ const navLinks = [
     }
   }
 
-  .nav-links-container {
+  .nav-extra-container {
     display: flex;
     align-items: center;
+    /* gap: 20px; */
     font-size: 1.4rem;
 
     @media screen and (max-width: 900px) {
       flex-wrap: wrap;
       margin-top: 1rem;
+      /* gap: 10px; */
+    }
+
+    .nav-links-block {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      gap: 20px;
+
+      @media screen and (max-width: 900px) {
+        gap: 15px;
+      }
+    }
+
+    .margin-left-auto {
+      margin-left: 20px;
+
+      @media screen and (max-width: 900px) {
+        margin-left: 10px;
+      }
     }
 
     .nav-links {
       display: flex;
       align-items: center;
       font-size: 1.4rem;
-      margin-right: 1.5rem;
+      /* margin-right: 1.5rem; */
 
       @media screen and (max-width: 900px) {
         font-size: 20px;
-        margin-right: 5px;
+        /* margin-right: 10px; */
       }
     }
   }
